@@ -1,0 +1,1089 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="A Brandeis Design and Innovation primer on generative AI. Learn how it works and what it costs, then decide when to use it.">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>AI Primer: Agency Before Automation</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Hind:wght@400;500;600&display=swap">
+<style>
+/* Layout: Brandeis Blue masthead, then a two-column reader (sticky module index + 13 module "lessons"), each lesson in the same six-part rhythm. */
+:root{
+  --brand:#003478;      /* Brandeis Blue */
+  --cyan:#00B3E9;       /* Brandeis Cyan */
+  --bg:#F6F8FB;
+  --surface:#FFFFFF;
+  --fg:#13213A;
+  --muted:#55627A;
+  --line:#DCE3EE;
+  --tint:#E8EFF8;
+  --accent:#003478;
+  --accent-ink:#FFFFFF;
+  --link:#00539F;
+  --good:#1F7A4D;
+  --warn:#9A5B00;
+  --code-bg:#EEF2F8;
+  --mast-bg:#003478;
+  --mast-fg:#FFFFFF;
+  --mast-muted:#B9CDEA;
+  --f-display:"Merriweather",Georgia,"Times New Roman",serif;
+  --f-body:"Hind",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0B1322;--surface:#111C30;--fg:#E5ECF6;--muted:#9AA9C2;--line:#24324A;--tint:#16243D;
+  --accent:#6FA8E8;--accent-ink:#0B1322;--link:#7DB9F0;--good:#5BC48E;--warn:#E3A84A;--code-bg:#0E1828;
+  --mast-bg:#0A2350;--mast-fg:#FFFFFF;--mast-muted:#9DB6DA;--cyan:#3FC6F0;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0B1322;--surface:#111C30;--fg:#E5ECF6;--muted:#9AA9C2;--line:#24324A;--tint:#16243D;
+  --accent:#6FA8E8;--accent-ink:#0B1322;--link:#7DB9F0;--good:#5BC48E;--warn:#E3A84A;--code-bg:#0E1828;
+  --mast-bg:#0A2350;--mast-fg:#FFFFFF;--mast-muted:#9DB6DA;--cyan:#3FC6F0;color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:17px;line-height:1.55;margin:0}
+a{color:var(--link)}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.25;margin:0}
+p{margin:0}
+code,pre{font-family:var(--f-mono);font-size:.86em}
+:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* Masthead */
+.mast{background:var(--mast-bg);color:var(--mast-fg)}
+.mast .wrap{padding-block:48px 40px;display:grid;gap:18px}
+.eyebrow{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--mast-muted)}
+.mast h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:700;max-width:16ch}
+.mast .lede{font-size:1.15rem;max-width:60ch;color:var(--mast-fg);opacity:.92}
+.rule{height:1px;background:rgba(255,255,255,.25);max-width:720px}
+.mast-facts{display:flex;flex-wrap:wrap;gap:10px 28px;font-size:.92rem;color:var(--mast-muted)}
+.mast-facts b{color:var(--mast-fg);font-weight:600}
+
+/* Reader layout */
+.reader{display:grid;grid-template-columns:240px minmax(0,1fr);gap:40px;padding-block:36px 80px}
+@media (max-width:900px){.reader{grid-template-columns:minmax(0,1fr)}}
+.index{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;display:grid;gap:14px}
+@media (max-width:900px){.index{position:static}}
+.index h2{font-family:var(--f-body);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.index ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+@media (max-width:900px){.index ol{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}}
+.index a{display:flex;gap:10px;align-items:baseline;text-decoration:none;color:var(--fg);padding:6px 10px;border-radius:6px;font-size:.95rem}
+.index a:hover{background:var(--tint)}
+.index a .n{font-variant-numeric:tabular-nums;color:var(--muted);font-size:.82rem;min-width:1.4em}
+.index a.done .n{color:var(--good);font-weight:600}
+.index a.rec{background:var(--tint)}
+.progress{font-size:.85rem;color:var(--muted)}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;background:var(--cyan);width:0;transition:width .3s}
+
+/* Modules */
+main{display:grid;gap:56px;min-width:0}
+.module{display:grid;gap:20px;scroll-margin-top:24px}
+.mod-head{display:grid;gap:8px;border-top:3px solid var(--brand);padding-top:18px}
+:root[data-theme="dark"] .mod-head{border-top-color:var(--accent)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .mod-head{border-top-color:var(--accent)}}
+.mod-num{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.mod-head h2{font-size:clamp(1.5rem,3vw,2rem)}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:.78rem;padding:2px 9px;border-radius:999px;background:var(--tint);color:var(--muted)}
+.part{display:grid;grid-template-columns:110px minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:620px){.part{grid-template-columns:minmax(0,1fr);gap:6px}}
+.part-label{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:var(--brand);padding-top:4px}
+:root[data-theme="dark"] .part-label{color:var(--accent)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .part-label{color:var(--accent)}}
+.part-body{display:grid;gap:12px;min-width:0;max-width:72ch}
+.part-body.wide{max-width:none}
+.alt{font-size:.92rem;color:var(--muted);border-left:3px solid var(--line);padding-left:12px}
+.alt b{color:var(--fg);font-weight:600}
+.call{background:var(--tint);border-radius:8px;padding:14px 16px}
+ol.steps{margin:0;padding-left:1.3em;display:grid;gap:6px}
+ul.plain{margin:0;padding-left:1.2em;display:grid;gap:4px}
+
+/* Code + copy */
+.codebox{position:relative;background:var(--code-bg);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.codebox pre{margin:0;padding:14px 16px;overflow-x:auto;white-space:pre;line-height:1.5;color:var(--fg)}
+.copy{position:absolute;top:8px;right:8px;font:600 .78rem var(--f-body);background:var(--surface);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:4px 10px;cursor:pointer}
+.copy:hover{border-color:var(--accent)}
+
+/* Tables */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.94rem}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;background:var(--tint)}
+tr:last-child td{border-bottom:0}
+tbody tr:nth-child(even) td{background:color-mix(in srgb,var(--tint) 45%,transparent)}
+
+/* Buttons + controls */
+.btn{font:600 .92rem var(--f-body);border-radius:6px;padding:8px 14px;cursor:pointer;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink)}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn:disabled{opacity:.45;cursor:default}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.check{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.check input{width:20px;height:20px;margin-top:2px;accent-color:var(--brand)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:12px}
+label.fld{display:grid;gap:4px;font-size:.88rem;font-weight:600}
+label.fld input,label.fld textarea,label.fld select{font:400 .95rem var(--f-body);padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--fg);width:100%}
+label.fld textarea{min-height:56px;resize:vertical}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+
+/* Placement map */
+.map{display:grid;grid-template-columns:110px repeat(5,minmax(0,1fr));gap:4px;font-size:.84rem}
+.map .hd{font-weight:600;color:var(--muted);text-align:center;padding:4px 2px;line-height:1.2}
+.map .rl{font-weight:600;align-self:center}
+.map button{min-height:40px;border:1px solid var(--line);border-radius:6px;background:var(--surface);cursor:pointer;color:var(--fg)}
+.map button:hover{border-color:var(--accent)}
+.map button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent)}
+.map .s0{background:color-mix(in srgb,var(--cyan) 6%,var(--surface))}
+.map .s1{background:color-mix(in srgb,var(--cyan) 12%,var(--surface))}
+.map .s2{background:color-mix(in srgb,var(--cyan) 18%,var(--surface))}
+.map .s3{background:color-mix(in srgb,var(--cyan) 24%,var(--surface))}
+.map .s4{background:color-mix(in srgb,var(--cyan) 30%,var(--surface))}
+@media (max-width:560px){.map{grid-template-columns:72px repeat(5,minmax(0,1fr));font-size:.72rem}}
+.route{font-size:.98rem}
+.route b{font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-block;padding:3px 10px;border-radius:999px;background:var(--tint);color:var(--fg);text-decoration:none;font-size:.88rem;font-weight:500}
+.chip:hover{outline:1px solid var(--accent)}
+
+/* Ratings */
+.rate{display:grid;grid-template-columns:120px minmax(0,1fr) 28px;gap:10px;align-items:center;font-size:.92rem}
+.rate input[type=range]{width:100%;accent-color:var(--brand)}
+
+/* SVG text colors */
+svg text{fill:var(--fg);font-family:var(--f-body)}
+svg .q{fill:var(--muted)}
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px;overflow-x:auto}
+.fig figcaption{font-size:.8rem;color:var(--muted);padding:6px 4px 0}
+figure{margin:0}
+
+/* Token demo */
+.tok{font-family:var(--f-display);font-size:1.25rem}
+.tok .gen{background:color-mix(in srgb,var(--cyan) 25%,transparent);border-radius:4px;padding:0 4px}
+.prob{display:grid;grid-template-columns:110px minmax(0,1fr) 44px;gap:8px;align-items:center;font-size:.92rem}
+.prob .track{height:14px;background:var(--line);border-radius:3px;overflow:hidden}
+.prob .fill{height:100%;background:var(--accent)}
+
+/* Decision tree */
+.tree-q{font-family:var(--f-display);font-size:1.15rem}
+.trail{display:flex;flex-wrap:wrap;gap:6px;font-size:.84rem;color:var(--muted)}
+.result{border-radius:8px;padding:12px 14px;background:var(--tint);font-weight:600}
+
+/* Policy spectrum */
+.spectrum{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+@media (max-width:560px){.spectrum{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.spectrum button{border:1px solid var(--line);border-radius:8px;padding:10px;background:var(--surface);color:var(--fg);cursor:pointer;text-align:left;font:500 .9rem var(--f-body);display:grid;gap:2px}
+.spectrum button b{font-family:var(--f-display);font-size:1.1rem}
+.spectrum button[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 2px var(--accent)}
+.spec-axis{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted)}
+
+/* Check */
+.selfcheck{border:1px dashed var(--line);border-radius:8px;padding:12px 14px}
+
+.foot{border-top:1px solid var(--line);padding-block:28px 48px;font-size:.88rem;color:var(--muted);display:grid;gap:8px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+html{scroll-behavior:smooth}
+</style>
+</head>
+<body>
+
+
+<header class="mast">
+  <div class="wrap">
+    <div class="eyebrow">Brandeis Design and Innovation</div>
+    <h1>AI Primer: Agency Before Automation</h1>
+    <div class="rule"></div>
+    <p class="lede">Curious, skeptical, or firmly against it? This guide is for you. See how generative AI works and what it costs, then make your own call on when to use it.</p>
+    <div class="mast-facts">
+      <span><b>15</b> modules</span>
+      <span><b>~20 min</b> each</span>
+      <span><b>No AI account</b> required for any activity</span>
+      <span>Updated <b>Oct 29, 2026</b></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap reader">
+  <nav class="index" aria-label="Modules">
+    <h2>Modules</h2>
+    <ol id="nav"></ol>
+    <div class="progress"><span id="progText">0 of 15 checked off</span><div class="bar"><i id="progBar"></i></div></div>
+  </nav>
+
+  <main id="main">
+
+  <!-- 0 -->
+  <section class="module" id="m0">
+    <div class="mod-head"><div class="mod-num">Module 0</div><h2>Find your starting point</h2>
+      <div class="tags"><span class="tag">Everyone</span></div></div>
+    <div class="part"><div class="part-label">Learn</div><div class="part-body">
+      <p>Everyone starts somewhere different. Some of you use AI every day, some refuse it on principle, and most are in between. Every one of those is a fine place to start, and a fine place to land.</p>
+      <p>Each module follows the same six steps: <b>Learn</b>, <b>See</b>, <b>Try</b>, <b>Example</b>, <b>Your call</b>, <b>Check</b>. Every activity has a version that needs no AI account.</p>
+    </div></div>
+    <div class="part"><div class="part-label">See</div><div class="part-body wide">
+      <div class="panel">
+        <div style="font-weight:600">Where do you stand, and what do you do?</div>
+        <div class="map" id="map" role="group" aria-label="Self-placement map"></div>
+        <div class="route" id="route" aria-live="polite">Pick your square to see a suggested route. There are no wrong squares.</div>
+      </div>
+    </div></div>
+    <div class="part"><div class="part-label">Try</div><div class="part-body">
+      <p>Rate yourself 1 to 5 on four skills from <a href="https://www.educause.edu/content/2024/ai-literacy-in-teaching-and-learning/introduction" target="_blank" rel="noopener">EDUCAUSE's AI literacy framework</a>. You'll do it again at the end.</p>
+      <div class="panel" id="ratesBefore"></div>
+      <p class="alt"><b>No account needed</b> for this one.</p>
+    </div></div>
+    <div class="part"><div class="part-label">Check</div><div class="part-body">
+      <label class="check selfcheck"><input type="checkbox" data-done="m0"> I know my square and my first two modules.</label>
+    </div></div>
+  </section>
+
+  <!-- 1 -->
+  <section class="module" id="m1">
+    <div class="mod-head"><div class="mod-num">Module 1</div><h2>What AI is, and its kinds</h2>
+      <div class="tags"><span class="tag">Everyone</span><span class="tag">Technical</span></div></div>
+    <div class="part"><div class="part-label">Learn</div><div class="part-body">
+      <p>"AI" is a big umbrella. It covers any system that does work that usually takes human judgment: spotting, predicting, deciding, creating. Generative AI is one branch of it.</p>
+      <p>Two quick distinctions. <b>Predictive</b> AI sorts or forecasts (is this spam?). <b>Generative</b> AI makes something new (draft a reply). And everything you can use today is <b>narrow</b>, built for specific jobs. AI that matches people at everything is still a debated idea.</p>
+    </div></div>
+    <div class="part"><div class="part-label">See</div><div class="part-body wide">
+      <figure class="fig"><svg viewBox="0 0 760 340" role="img" aria-label="Generative AI sits inside deep learning, inside machine learning, inside AI" style="width:100%;min-width:600px;height:auto">
+        <text x="20" y="26" font-size="15" font-weight="600">Generative AI is one branch inside a much larger field</text>
+        <rect x="20" y="44" width="720" height="280" rx="14" fill="none" stroke="var(--line)" stroke-width="1.5"/>
+        <text x="40" y="72" font-size="14" font-weight="600">Artificial intelligence</text>
+        <text x="40" y="90" font-size="12" class="q">systems that do tasks needing human judgment</text>
+        <rect x="40" y="112" width="200" height="190" rx="10" fill="none" stroke="var(--line)" stroke-width="1.5"/>
+        <text x="56" y="138" font-size="14" font-weight="600">Symbolic AI</text>
+        <text x="56" y="158" font-size="12" class="q">rules written by people</text>
+        <text x="56" y="190" font-size="12">Tax-software logic</text>
+        <text x="56" y="208" font-size="12">Early chess programs</text>
+        <text x="56" y="226" font-size="12">Expert systems</text>
+        <rect x="260" y="112" width="460" height="190" rx="10" fill="none" stroke="var(--line)" stroke-width="1.5"/>
+        <text x="276" y="138" font-size="14" font-weight="600">Machine learning</text>
+        <text x="276" y="158" font-size="12" class="q">learns from data</text>
+        <text x="276" y="190" font-size="12">Spam filters</text>
+        <text x="276" y="208" font-size="12">Recommendations</text>
+        <rect x="444" y="134" width="260" height="152" rx="10" fill="none" stroke="var(--line)" stroke-width="1.5"/>
+        <text x="460" y="158" font-size="14" font-weight="600">Deep learning</text>
+        <text x="460" y="176" font-size="12" class="q">many-layered neural networks</text>
+        <text x="460" y="198" font-size="12">Face unlock, speech-to-text</text>
+        <rect x="460" y="212" width="228" height="60" rx="10" fill="color-mix(in srgb, var(--cyan) 14%, transparent)" stroke="var(--cyan)" stroke-width="2"/>
+        <text x="476" y="236" font-size="14" font-weight="600">Generative AI</text>
+        <text x="476" y="256" font-size="12">Chatbots, image generators</text>
+      </svg>
+      <figcaption>Adapted from <a href="https://science.psu.edu/science-journal/winter-2026/AI101" target="_blank" rel="noopener">Penn State Science Journal, "AI 101"</a>, Winter 2026.</figcaption></figure>
+      <div class="tbl"><table><thead><tr><th>Kind</th><th>How it works</th><th>Strength</th><th>Limit</th></tr></thead><tbody>
+        <tr><td>Symbolic</td><td>People write explicit if-then rules and logic</td><td>Every step can be explained</td><td>Breaks on cases the rules didn't foresee</td></tr>
+        <tr><td>Machine learning</td><td>Learns from examples: labeled (supervised), unlabeled (unsupervised), or by trial and error (reinforcement)</td><td>Handles messy, real-world patterns</td><td>Only as good as its data; harder to explain</td></tr>
+        <tr><td>Deep learning</td><td>Machine learning with many-layered neural networks</td><td>Images, speech, language</td><td>Needs lots of data and computing power</td></tr>
+        <tr><td>Generative AI</td><td>Deep learning that produces new text, images, audio or code</td><td>Flexible, works from plain language</td><td>Can produce fluent content that is false</td></tr>
+      </tbody></table></div>
+    </div></div>
+    <div class="part"><div class="part-label">Try</div><div class="part-body wide">
+      <div class="panel">
+        <div style="font-weight:600">Sort these everyday technologies. Pick the most specific kind.</div>
+        <div id="sorter" style="display:grid;gap:8px"></div>
+        <div class="row"><button class="btn" id="sortCheck">Check my answers</button><span id="sortScore" style="font-weight:600" aria-live="polite"></span></div>
+        <p style="font-size:.85rem;color:var(--muted)">Kinds overlap: deep learning is a kind of machine learning, so pick the innermost box that fits.</p>
+      </div>
+      <p class="alt"><b>No account needed</b> for this one.</p>
+    </div></div>
+    <div class="part"><div class="part-label">Your call</div><div class="part-body"><p class="call">When someone says "AI," ask which kind. You can be fine with a spam filter and still pass on chatbots, or the other way around.</p></div></div>
+    <div class="part"><div class="part-label">Check</div><div class="part-body">
+      <label class="check selfcheck"><input type="checkbox" data-done="m1"> I can name one thing I used this week from each kind.</label>
+    </div></div>
+    <script>
+    (function(){
+      const kinds = ['Not AI','Symbolic','Machine learning','Deep learning','Generative AI'];
+      const items = [['Email spam filter',2],['Face unlock on a phone',3],['Rules in tax-filing software',1],['A chat assistant',4],['Streaming recommendations',2],['A pocket calculator',0],['An image generator',4],['Live captions (speech-to-text)',3]];
+      const el = document.getElementById('sorter');
+      el.innerHTML = items.map((it,i) => `<label class="rate" style="grid-template-columns:minmax(0,1fr) 180px 24px" for="sort-${i}"><span>${it[0]}</span><select id="sort-${i}" style="font:400 .92rem var(--f-body);padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--fg)"><option value="">Choose...</option>${kinds.map((k,j)=>`<option value="${j}">${k}</option>`).join('')}</select><b id="sort-${i}-r"></b></label>`).join('');
+      document.getElementById('sortCheck').addEventListener('click', () => {
+        let c = 0;
+        items.forEach((it,i) => { const v = document.getElementById('sort-'+i).value; const ok = v !== '' && +v === it[1]; if(ok) c++; const r = document.getElementById('sort-'+i+'-r'); r.textContent = ok ? '✓' : '✗'; r.style.color = ok ? 'var(--good)' : 'var(--warn)'; r.title = 'Answer: ' + kinds[it[1]]; });
+        document.getElementById('sortScore').textContent = `${c} of ${items.length} correct. Hover a mark to see the answer.`;
+      });
+    })();
+    </script>
+  </section>
+
+  <!-- 2 -->
+  <section class="module" id="m2">
+    <div class="mod-head"><div class="mod-num">Module 2</div><h2>How large language models work</h2>
+      <div class="tags"><span class="tag">Everyone</span><span class="tag">Technical</span></div></div>
+    <div class="part"><div class="part-label">Learn</div><div class="part-body">
+      <p>A large language model (LLM) guesses the next chunk of text, again and again, using patterns from a huge pile of writing. It doesn't look anything up unless it has a search tool, and nothing in that loop checks whether it's true.</p>
+      <div class="tbl"><table><thead><tr><th>Term</th><th>Plain meaning</th></tr></thead><tbody>
+        <tr><td>Token</td><td>A chunk of text, often part of a word. Models read and write in tokens.</td></tr>
+        <tr><td>Training</td><td>The one-time process where the model learns patterns. Its knowledge stops at a cutoff date.</td></tr>
+        <tr><td>Context window</td><td>Everything the model can see in one session: your messages, files, and its own replies.</td></tr>
+      </tbody></table></div>
+    </div></div>
+    <div class="part"><div class="part-label">See</div><div class="part-body wide">
+      <div class="panel">
+        <div class="tok" id="tokText">The library opens at</div>
+        <div id="probs" style="display:grid;gap:6px"></div>
+        <div class="row"><button class="btn" id="sampleBtn">Pick the next word</button><button class="btn ghost" id="resetTok">Reset</button></div>
+        <p style="font-size:.85rem;color:var(--muted)">Illustrative numbers chosen to show the idea, not output from a real model. A model picks a likely word, not a checked one.</p>
+      </div>
+    </div></div>
+    <div class="part"><div class="part-label">Try</div><div class="part-body">
+      <p>Write three words that could come after "The library opens at." Rank them. That's roughly what the model does for every word. The likeliest guess isn't always right for Brandeis.</p>
+      <p class="alt"><b>No-account version:</b> try it with a sentence from your own field. Where would a guess go wrong?</p>
+    </div></div>
+    <div class="part"><div class="part-label">Example</div><div class="part-body">
+      <ol class="steps">
+        <li>Open any chat tool.</li>
+        <li>Paste the prompt below and read the three endings. Each is plausible. None is checked.</li>
+        <li>Then ask for today's actual library hours. Without a search tool, it guesses. With one, it should cite a page you can open.</li>
+      </ol>
+      <div class="codebox"><button class="copy">Copy</button><pre>Finish this sentence three different ways, then tell me which one
+is most likely and why: "The library opens at"</pre></div>
+    </div></div>
+    <div class="part"><div class="part-label">Your call</div><div class="part-body"><p class="call">If the facts need to be exact and current, use it only when you can check every claim.</p></div></div>
+    <div class="part"><div class="part-label">Check</div><div class="part-body">
+      <label class="check selfcheck"><input type="checkbox" data-done="m2"> I can explain why a model can sound sure and still be wrong.</label>
+    </div></div>
+  </section>
+
+  <!-- 3 -->
+  <section class="module" id="m3">
+    <div class="mod-head"><div class="mod-num">Module 3</div><h2>Who uses it, and how</h2>
+      <div class="tags"><span class="tag">Everyone</span><span class="tag">Evaluative</span></div></div>
+    <div class="part"><div class="part-label">Learn</div><div class="part-body">
+      <p>Lots of people on campus use AI, and lots of people worry about it. A 2026 survey of 45,000+ students and faculty found both at once. In a separate survey, 95% of 1,057 US faculty worried students would lean on it too much.</p>
+    </div></div>
+    <div class="part"><div class="part-label">See</div><div class="part-body wide">
+      <figure class="fig"><svg id="useChart" viewBox="0 0 760 330" role="img" aria-label="Nearly 9 in 10 students use AI, yet 57% lack guidance on it in assessments" style="width:100%;min-width:560px;height:auto"></svg>
+      <figcaption>Source: Digital Education Council, AI in Higher Education Global Survey 2026 (45,000+ responses, 35 countries), as reported by <a href="https://www.thecollegefix.com/nearly-90-of-students-77-of-faculty-use-ai-survey/" target="_blank" rel="noopener">The College Fix</a>, July 2026.</figcaption></figure>
+    </div></div>
+    <div class="part"><div class="part-label">Try</div><div class="part-body">
+      <p>Ask three people around you how they use AI, if at all, and what worries them. How do their answers compare with the chart?</p>
+      <p class="alt"><b>No account needed</b> for this one.</p>
+    </div></div>
+    <div class="part"><div class="part-label">Your call</div><div class="part-body"><p class="call">A popular tool may still be wrong for you. Read these numbers as a picture of the people around you.</p></div></div>
+    <div class="part"><div class="part-label">Check</div><div class="part-body">
+      <label class="check selfcheck"><input type="checkbox" data-done="m3"> I can say how my own field or office compares with these numbers.</label>
+    </div></div>
+  </section>
+
+  <!-- 4 -->
+  <section class="module" id="m4">
+    <div class="mod-head"><div class="mod-num">Module 4</div><h2>Limits, costs and open questions</h2>
+      <div class="tags"><span class="tag">Everyone</span><span class="tag">Ethical</span><span class="tag">Evaluative</span></div></div>
+    <div class="part"><div class="part-label">Learn</div><div class="part-body">
+      <p>Every use comes with trade-offs. Here's what's known and what's still open, so you can weigh it yourself.</p>
+    </div></div>
+    <div class="part"><div class="part-label">See</div><div class="part-body wide">
+      <div class="tbl"><table><thead><tr><th>Issue</th><th>What the evidence shows</th><th>What is still open</th></tr></thead><tbody>
+        <tr><td>Invented facts</td><td>In a 2026 test of 13 models, every one invented citations, at rates from 14% to 95% (<a href="https://www.alphaxiv.org/abs/2602.06718" target="_blank" rel="noopener">GhostCite</a>)</td><td>How fast rates fall as tools add search and checking</td></tr>
+        <tr><td>Energy and water</td><td>Google reports a median Gemini text prompt used 0.24 Wh and 0.26 mL of water in May 2025 (<a href="https://cloud.google.com/blog/products/infrastructure/measuring-the-environmental-impact-of-ai-inference" target="_blank" rel="noopener">Google Cloud</a>)</td><td>Self-reported, not independently verified; training, images, video and agents use more</td></tr>
+        <tr><td>Bias</td><td>Models learn from human-written text and can repeat its patterns</td><td>How to measure bias across languages and cultures</td></tr>
+        <tr><td>Privacy</td><td>Some tools train on prompts by default; Brandeis-provided tools state they do not (<a href="https://www.brandeis.edu/ai-steering-council/ai-tools.html" target="_blank" rel="noopener">Brandeis</a>)</td><td>What happens to data across vendors over time</td></tr>
+        <tr><td>Authorship and copyright</td><td>Courts and publishers are still deciding how training data and outputs are treated</td><td>Most questions remain unsettled in 2026</td></tr>
+        <tr><td>Learning and skill</td><td>22% of students in a 2026 global survey said working without AI is now harder</td><td>Long-term effects on learning</td></tr>
+      </tbody></table></div>
+    </div></div>
+    <div class="part"><div class="part-label">Try</div><div class="part-body">
+      <p><b>Catch the invented citation.</b> Ask a chat tool for five sources in your field, with authors, year and DOI. Look each one up. How many really exist as written?</p>
+      <p class="alt"><b>No-account version:</b> check a sample list from office hours the same way.</p>
+    </div></div>
+    <div class="part"><div class="part-label">Example</div><div class="part-body">
+      <p>Check a source in four steps. Tick as you go.</p>
+      <div class="panel" style="gap:8px">
+        <label class="check"><input type="checkbox"> Search the exact title in the library catalog.</label>
+        <label class="check"><input type="checkbox"> Confirm the authors and year match.</label>
+        <label class="check"><input type="checkbox"> Open the DOI. A broken or mismatched DOI is a red flag.</label>
+        <label class="check"><input type="checkbox"> Find the quoted passage in the actual text.</label>
+      </div>
+    </div></div>
+    <div class="part"><div class="part-label">Your call</div><div class="part-body"><p class="call">If you can't check it, don't use it. And if a cost here outweighs the benefit, skipping the tool is a good call.</p></div></div>
+    <div class="part"><div class="part-label">Check</div><div class="part-body">
+      <label class="check selfcheck"><input type="checkbox" data-done="m4"> I know my top two trade-offs and how I'd test for each.</label>
+    </div></div>
+  </section>
+
+  <!-- 5 -->
+  <section class="module" id="m5">
+    <div class="mod-head"><div class="mod-num">Module 5</div><h2>Deciding whether to use it</h2>
+      <div class="tags"><span class="tag">Everyone</span><span class="tag">Ethical</span><span class="tag">Practical</span></div></div>
+    <div class="part"><div class="part-label">Learn</div><div class="part-body">
+      <p>You decide task by task. These four questions cover most cases, and any early exit is a full answer.</p>
+    </div></div>
+    <div class="part"><div class="part-label">See</div><div class="part-body wide">
+      <div class="panel" id="tree" aria-live="polite"></div>
+    </div></div>
+    <div class="part"><div class="part-label">Try</div><div class="part-body">
+      <p>Pick five tasks from your week. Run each one through the tree. Where does it land?</p>
+      <p class="alt"><b>No account needed</b> for this one.</p>
+    </div></div>
+    <div class="part"><div class="part-label">Example</div><div class="part-body">
+      <ol class="steps">
+        <li><b>Summarizing a public article for your own notes.</b> Allowed, not sensitive, checkable against the article, not a skill you need to keep. Outcome: try it, and check the summary against the source.</li>
+        <li><b>Writing feedback on a student's essay.</b> Depends on course policy, and it is student work, so it is sensitive. Outcome: an approved tool only, or do it yourself. Many instructors stop here.</li>
+      </ol>
+    </div></div>
+    <div class="part"><div class="part-label">Your call</div><div class="part-body"><p class="call">This whole module is your call. Your answers can change as rules, tools and your goals change.</p></div></div>
+    <div class="part"><div class="part-label">Check</div><div class="part-body">
+      <label class="check selfcheck"><input type="checkbox" data-done="m5"> I ran five tasks through the tree, and at least one exited early.</label>
+    </div></div>
+  </section>
+
+  <!-- 6 -->
+  <section class="module" id="m6">
+    <div class="mod-head"><div class="mod-num">Module 6</div><h2>Tools, privacy and opting out</h2>
+      <div class="tags"><span class="tag">Everyone</span><span class="tag">Ethical</span><span class="tag">Practical</span></div></div>
+    <div class="part"><div class="part-label">Learn</div><div class="part-body">
+      <p>AI shows up three ways: chat assistants you open on purpose, features built into apps you already use, and agents that act for you. Sign in with your Brandeis account to use Gemini, NotebookLM, Copilot or Zoom AI with data protection. Brandeis says those prompts aren't used for training (<a href="https://www.brandeis.edu/ai-steering-council/ai-tools.html" target="_blank" rel="noopener">Brandeis AI Tools</a>).</p>
+    </div></div>
+    <div class="part"><div class="part-label">See</div><div class="part-body wide">
+      <div class="tbl"><table><thead><tr><th>Form</th><th>Examples</th><th>Where your data goes</th></tr></thead><tbody>
+        <tr><td>Chat assistant</td><td>Gemini, Copilot, ChatGPT, Claude</td><td>Depends on the account and its settings</td></tr>
+        <tr><td>Built-in feature</td><td>Zoom AI summaries, Gmail and Docs suggestions, search summaries</td><td>Often on by default inside the host tool</td></tr>
+        <tr><td>Agent</td><td>Coding agents, browser agents, scheduled assistants</td><td>Can read files and act in apps you connect</td></tr>
+      </tbody></table></div>
+    </div></div>
+    <div class="part"><div class="part-label">Try</div><div class="part-body">
+      <p>List the tools you used this week. Which ones have AI turned on? Most people find one they didn't know about.</p>
+      <p class="alt"><b>No account needed</b> for this one.</p>
+    </div></div>
+    <div class="part"><div class="part-label">Example</div><div class="part-body">
+      <p>Check your data settings:</p>
+      <div class="panel" style="gap:8px">
+        <label class="check"><input type="checkbox"> Sign in with your Brandeis account where possible.</label>
+        <label class="check"><input type="checkbox"> In any other tool, open Settings, then "Data controls" or "Privacy".</label>
+        <label class="check"><input type="checkbox"> Find the setting about training on your chats, and turn it off if you prefer.</label>
+        <label class="check"><input type="checkbox"> Review chat history and memory, and delete what you wouldn't want stored.</label>
+        <label class="check"><input type="checkbox"> Before pasting, ask: is this student data, research data, or someone else's personal information?</label>
+      </div>
+      <p><b>Opting out.</b> Most apps let you switch AI features off in settings. If yours doesn't, you can simply ignore the suggestion. Either way, the choice is yours.</p>
+    </div></div>
+    <div class="part"><div class="part-label">Your call</div><div class="part-body"><p class="call">Keep sensitive data, things shared in confidence, and anything under FERPA or an IRB out of tools without an approved agreement.</p></div></div>
+    <div class="part"><div class="part-label">Check</div><div class="part-body">
+      <label class="check selfcheck"><input type="checkbox" data-done="m6"> For one tool I use, I know where my prompts go and whether they train the model.</label>
+    </div></div>
+  </section>
+
+  <!-- 7 -->
+  <section class="module" id="m7">
+    <div class="mod-head"><div class="mod-num">Module 7</div><h2>Running AI on your own computer</h2>
+      <div class="tags"><span class="tag">Skeptical</span><span class="tag">Researchers</span><span class="tag">Ethical</span><span class="tag">Practical</span></div></div>
+    <div class="part"><div class="part-label">Learn</div><div class="part-body">
+      <p>You can download some models (called <b>open-weight</b>) and run them right on your laptop. A <b>local model</b> needs no account, works offline, and keeps your prompts on your machine. The catch: they're smaller, they need memory, and they still make things up.</p>
+      <p>Most laptops run a compressed version (<b>quantization</b>, like 4-bit). Smaller file, slightly lower quality.</p>
+    </div></div>
+    <div class="part"><div class="part-label">See</div><div class="part-body wide">
+      <div class="tbl"><table><thead><tr><th>Your memory (GPU, or unified memory on Apple)</th><th>Model size that fits (4-bit)</th><th>Examples</th></tr></thead><tbody>
+        <tr><td>4 to 6 GB, or no graphics card</td><td>1 to 4 billion parameters</td><td>Qwen3 4B, Gemma 3 4B, Phi-4-mini</td></tr>
+        <tr><td>8 GB</td><td>7 to 8 billion</td><td>Llama 3.1 8B, Qwen3 8B</td></tr>
+        <tr><td>12 to 16 GB</td><td>13 to 14 billion</td><td>Qwen3 14B</td></tr>
+        <tr><td>24 GB or more</td><td>about 30 billion</td><td>Qwen3 32B</td></tr>
+      </tbody></table></div>
+      <p style="font-size:.85rem;color:var(--muted)">Source: <a href="https://llmhardware.io/guides/how-to-run-llms-locally" target="_blank" rel="noopener">llmhardware.io, How to Run LLMs Locally (2026)</a>. It reports roughly 30 to 80 tokens per second on a graphics card and 3 to 8 on a processor alone.</p>
+      <div class="tbl"><table><thead><tr><th></th><th>Local model</th><th>Cloud assistant</th></tr></thead><tbody>
+        <tr><td>Where prompts go</td><td>Stay on your computer</td><td>Sent to the provider</td></tr>
+        <tr><td>Account needed</td><td>No</td><td>Usually</td></tr>
+        <tr><td>Works offline</td><td>Yes</td><td>No</td></tr>
+        <tr><td>Cost per use</td><td>Your own electricity</td><td>Free tier or subscription</td></tr>
+        <tr><td>Capability</td><td>Smaller models, fewer tools</td><td>Larger models, search, files, agents</td></tr>
+        <tr><td>Invented facts</td><td>Yes</td><td>Yes</td></tr>
+      </tbody></table></div>
+    </div></div>
+    <div class="part"><div class="part-label">Try</div><div class="part-body">
+      <p>Find your computer's memory (Mac: Apple menu, About This Mac. Windows: Settings, System, About). Which row are you?</p>
+      <p class="alt"><b>No-download version:</b> find your row and decide whether a local model would help you at all.</p>
+    </div></div>
+    <div class="part"><div class="part-label">Example</div><div class="part-body">
+      <p><b>Run a small model, no account needed.</b> Check your department's software rules first.</p>
+      <ol class="steps">
+        <li>Install <a href="https://ollama.com" target="_blank" rel="noopener">Ollama</a> (command line) or <a href="https://lmstudio.ai" target="_blank" rel="noopener">LM Studio</a> (a desktop app with a chat window).</li>
+        <li>In Ollama, open Terminal and run the line below. It downloads about 3 GB once, then starts a chat. In LM Studio, search for the same model and click Download.</li>
+      </ol>
+      <div class="codebox"><button class="copy">Copy</button><pre>ollama run qwen3:4b</pre></div>
+      <ol class="steps" start="3">
+        <li>Turn off Wi-Fi.</li>
+        <li>Ask it to summarize a paragraph you paste in. It still answers, which shows it runs without the internet.</li>
+        <li>Ask it a factual question about Brandeis. Compare its answer with a source. Smaller models guess more often.</li>
+        <li>Type <code>/bye</code> to exit. Delete the model later with <code>ollama rm qwen3:4b</code> to free the space.</li>
+      </ol>
+    </div></div>
+    <div class="part"><div class="part-label">Your call</div><div class="part-body"><p class="call">Local can be a good fit for private drafts, if your policies allow it. Check the model's license for work use, and remember local models still get things wrong.</p></div></div>
+    <div class="part"><div class="part-label">Check</div><div class="part-body">
+      <label class="check selfcheck"><input type="checkbox" data-done="m7"> I can say which model size my computer could run, and whether I'd want one.</label>
+    </div></div>
+  </section>
+
+  <!-- 8 -->
+  <section class="module" id="m8">
+    <div class="mod-head"><div class="mod-num">Module 8</div><h2>Prompting</h2>
+      <div class="tags"><span class="tag">Curious</span><span class="tag">Users</span><span class="tag">Practical</span></div></div>
+    <div class="part"><div class="part-label">Learn</div><div class="part-body">
+      <p>A prompt is your instruction. The model only knows what you tell it, so name five things: your <b>goal</b>, the <b>context</b>, the <b>task</b>, the <b>constraints</b>, and the <b>format</b>.</p>
+    </div></div>
+    <div class="part"><div class="part-label">See</div><div class="part-body wide">
+      <div class="panel">
+        <div style="font-weight:600">Prompt builder. Fill the parts and watch the score.</div>
+        <div class="grid2">
+          <label class="fld">Goal<textarea id="p-goal">I'm a TA for an intro business course. I want to answer student emails faster without sounding robotic.</textarea></label>
+          <label class="fld">Context<textarea id="p-ctx">Students often ask about late work. Policy: 2 late days per term, no questions asked; after that, email the professor.</textarea></label>
+          <label class="fld">Task<textarea id="p-task">Draft a reply to the email below.</textarea></label>
+          <label class="fld">Constraints<textarea id="p-con">Under 120 words. Warm, direct. Don't promise extensions.</textarea></label>
+          <label class="fld">Format<textarea id="p-fmt"></textarea></label>
+        </div>
+        <div class="row" style="justify-content:space-between"><div id="pScore" style="font-weight:600"></div><div style="font-size:.85rem;color:var(--muted)">2 points per part, 10 total</div></div>
+        <div class="codebox"><button class="copy">Copy</button><pre id="pOut"></pre></div>
+      </div>
+    </div></div>
+    <div class="part"><div class="part-label">Try</div><div class="part-body">
+      <p>Start with <code>write an email about late work</code>. Rebuild it with the five parts. Run both. What changed?</p>
+      <p class="alt"><b>No-account version:</b> rewrite it on paper and swap with a partner to score each other.</p>
+    </div></div>
+    <div class="part"><div class="part-label">Example</div><div class="part-body">
+      <ol class="steps">
+        <li>Write your first prompt the way you naturally would.</li>
+        <li>Ask: what would a new colleague need to know? Add that as context.</li>
+        <li>Add one constraint you care about: length, tone, or what to avoid.</li>
+        <li>After the reply, say what was wrong in plain words ("too formal, cut the second paragraph") instead of starting over.</li>
+      </ol>
+    </div></div>
+    <div class="part"><div class="part-label">Your call</div><div class="part-body"><p class="call">If writing the prompt takes longer than the task, just do the task.</p></div></div>
+    <div class="part"><div class="part-label">Check</div><div class="part-body">
+      <label class="check selfcheck"><input type="checkbox" data-done="m8"> My rewritten prompt scores 8 or higher.</label>
+    </div></div>
+  </section>
+
+  <!-- 9 -->
+  <section class="module" id="m9">
+    <div class="mod-head"><div class="mod-num">Module 9</div><h2>Context and setting up a system</h2>
+      <div class="tags"><span class="tag">Users</span><span class="tag">Educators</span><span class="tag">Staff</span><span class="tag">Practical</span></div></div>
+    <div class="part"><div class="part-label">Learn</div><div class="part-body">
+      <p>Tired of re-explaining yourself every chat? Save it once. Gemini has Gems, ChatGPT has custom GPTs and Projects, Claude has Projects, NotebookLM has notebooks. Each holds <b>standing instructions</b>, <b>reference files</b>, and sometimes <b>memory</b>.</p>
+    </div></div>
+    <div class="part"><div class="part-label">See</div><div class="part-body wide">
+      <figure class="fig"><svg viewBox="0 0 760 210" role="img" aria-label="A saved system feeds three inputs into every chat" style="width:100%;min-width:520px;height:auto">
+        <defs><marker id="ar7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker></defs>
+        <text x="20" y="26" font-size="15" font-weight="600">A saved system feeds three things into every chat</text>
+        <g fill="none" stroke="var(--line)" stroke-width="1.5">
+          <rect x="20" y="50" width="220" height="40" rx="8"/><rect x="20" y="104" width="220" height="40" rx="8"/><rect x="20" y="158" width="220" height="40" rx="8"/>
+          <rect x="300" y="77" width="190" height="94" rx="10" stroke="var(--cyan)" stroke-width="2"/>
+          <rect x="560" y="104" width="180" height="40" rx="8"/>
+        </g>
+        <g stroke="var(--muted)" stroke-width="1.25" fill="none">
+          <path d="M240 70H270V110H300" marker-end="url(#ar7)"/><path d="M240 124H300" marker-end="url(#ar7)"/><path d="M240 178H270V138H300" marker-end="url(#ar7)"/><path d="M490 124H560" marker-end="url(#ar7)"/>
+        </g>
+        <text x="130" y="75" text-anchor="middle" font-size="13">Standing instructions</text>
+        <text x="130" y="129" text-anchor="middle" font-size="13">Reference files</text>
+        <text x="130" y="183" text-anchor="middle" font-size="13">Memory (optional)</text>
+        <text x="395" y="120" text-anchor="middle" font-size="14" font-weight="600">Context window</text>
+        <text x="395" y="140" text-anchor="middle" font-size="12" class="q">what the model can see</text>
+        <text x="650" y="129" text-anchor="middle" font-size="13">Your next chat</text>
+      </svg></figure>
+    </div></div>
+    <div class="part"><div class="part-label">Try</div><div class="part-body">
+      <p>Pick a task you do every week. Write the instructions you'd give a new assistant on day one.</p>
+      <p class="alt"><b>No-account version:</b> write it as a checklist for a human colleague. Same document.</p>
+    </div></div>
+    <div class="part"><div class="part-label">Example</div><div class="part-body">
+      <p><b>Build a course FAQ assistant.</b></p>
+      <ol class="steps">
+        <li>Create a project, Gem or notebook in a Brandeis-provided tool.</li>
+        <li>Upload the syllabus and course policies. Leave out anything with student names.</li>
+        <li>Paste these instructions:</li>
+      </ol>
+      <div class="codebox"><button class="copy">Copy</button><pre>You answer questions about [COURSE NAME] using only the attached
+syllabus and policies.
+- Quote the section you used and name the page.
+- If the answer is not in the files, say "I don't see that in the
+  course documents" and suggest emailing the instructor. Do not guess.
+- Keep answers under 100 words.</pre></div>
+      <ol class="steps" start="4">
+        <li>Test it with five real questions, including one the syllabus doesn't answer.</li>
+        <li>Confirm it said "I don't see that" for the unanswerable one. If it guessed, tighten the instructions and test again.</li>
+      </ol>
+    </div></div>
+    <div class="part"><div class="part-label">Your call</div><div class="part-body"><p class="call">For confidential files or high-stakes answers like grades or accommodations, a person should answer.</p></div></div>
+    <div class="part"><div class="part-label">Check</div><div class="part-body">
+      <label class="check selfcheck"><input type="checkbox" data-done="m9"> My assistant refused the unanswerable question instead of inventing an answer.</label>
+    </div></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="module" id="m10">
+    <div class="mod-head"><div class="mod-num">Module 10</div><h2>Workflows</h2>
+      <div class="tags"><span class="tag">Staff</span><span class="tag">Users</span><span class="tag">Practical</span></div></div>
+    <div class="part"><div class="part-label">Learn</div><div class="part-body">
+      <p>A workflow is a set of steps you repeat, where AI does some and you do the rest. The savings come from the routine, and the best ones mark exactly where you check the work.</p>
+    </div></div>
+    <div class="part"><div class="part-label">See</div><div class="part-body wide">
+      <figure class="fig"><svg viewBox="0 0 760 150" role="img" aria-label="Meeting notes to action items: the person starts, checks and sends" style="width:100%;min-width:600px;height:auto">
+        <defs><marker id="ar8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker></defs>
+        <text x="20" y="26" font-size="15" font-weight="600">Meeting notes to action items: you start it, check it, and send it</text>
+        <g stroke-width="1.5">
+          <rect x="20" y="56" width="160" height="56" rx="8" fill="none" stroke="var(--accent)"/>
+          <rect x="210" y="56" width="160" height="56" rx="8" fill="var(--tint)" stroke="var(--line)"/>
+          <rect x="400" y="56" width="160" height="56" rx="8" fill="none" stroke="var(--accent)"/>
+          <rect x="590" y="56" width="150" height="56" rx="8" fill="none" stroke="var(--accent)"/>
+        </g>
+        <g stroke="var(--muted)" stroke-width="1.25"><path d="M180 84H210" marker-end="url(#ar8)"/><path d="M370 84H400" marker-end="url(#ar8)"/><path d="M560 84H590" marker-end="url(#ar8)"/></g>
+        <text x="100" y="80" text-anchor="middle" font-size="13" font-weight="600">Take notes</text><text x="100" y="98" text-anchor="middle" font-size="12" class="q">Me</text>
+        <text x="290" y="80" text-anchor="middle" font-size="13" font-weight="600">Extract items</text><text x="290" y="98" text-anchor="middle" font-size="12" class="q">AI</text>
+        <text x="480" y="80" text-anchor="middle" font-size="13" font-weight="600">Check owners, dates</text><text x="480" y="98" text-anchor="middle" font-size="12" class="q">Me checks AI</text>
+        <text x="665" y="80" text-anchor="middle" font-size="13" font-weight="600">Send the list</text><text x="665" y="98" text-anchor="middle" font-size="12" class="q">Me</text>
+        <text x="20" y="138" font-size="12" class="q">Outlined boxes are yours. The shaded box is the only step the tool does.</text>
+      </svg></figure>
+    </div></div>
+    <div class="part"><div class="part-label">Try</div><div class="part-body">
+      <p>Write out one weekly task as steps. Label each <b>Me</b>, <b>AI</b>, or <b>Me checks AI</b>. Time it before and after, checking included.</p>
+      <p class="alt"><b>No-account version:</b> write the steps, then mark the ones you'd never hand off, and why.</p>
+    </div></div>
+    <div class="part"><div class="part-label">Example</div><div class="part-body">
+      <p><b>A. Meeting notes to action items.</b> Paste your notes (or a transcript everyone agreed to) with:</p>
+      <div class="codebox"><button class="copy">Copy</button><pre>From these notes, list every action item as: owner, task, due date.
+If an owner or date is unclear, write "unclear" instead of guessing.
+Then list open questions.</pre></div>
+      <p><b>B. Draft, critique, revise.</b> You write the draft. The tool only critiques. The words stay yours.</p>
+      <div class="codebox"><button class="copy">Copy</button><pre>Act as a skeptical reviewer in [field]. List the three weakest
+points in this draft and why. Do not rewrite it.</pre></div>
+    </div></div>
+    <div class="part"><div class="part-label">Your call</div><div class="part-body"><p class="call">Keep any step that builds a skill you care about, or where a mistake would be costly and hard to catch.</p></div></div>
+    <div class="part"><div class="part-label">Check</div><div class="part-body">
+      <label class="check selfcheck"><input type="checkbox" data-done="m10"> I timed my workflow before and after, checking included.</label>
+    </div></div>
+  </section>
+
+  <!-- 11 -->
+  <section class="module" id="m11">
+    <div class="mod-head"><div class="mod-num">Module 11</div><h2>Agents and loop engineering</h2>
+      <div class="tags"><span class="tag">Daily users</span><span class="tag">Educators</span><span class="tag">Technical</span></div></div>
+    <div class="part"><div class="part-label">Learn</div><div class="part-body">
+      <p>An agent is a model that can act (search, read files, run code) and pick its next step from what happened. "Loop engineering" covers the cycles around it that keep its work reliable (<a href="https://www.deeplearning.ai/courses/loop-engineering-with-langchain-deep-agents" target="_blank" rel="noopener">DeepLearning.AI</a>). A person sets the terms for every loop. Tap one to see how.</p>
+    </div></div>
+    <div class="part"><div class="part-label">See</div><div class="part-body wide">
+      <div class="panel">
+        <svg id="loops" viewBox="0 0 760 300" role="img" aria-label="Four loops, each nested around the agent" style="width:100%;height:auto"></svg>
+        <div id="loopInfo" class="route" aria-live="polite"></div>
+      </div>
+    </div></div>
+    <div class="part"><div class="part-label">Try</div><div class="part-body">
+      <p>Write a three-item pass/fail rubric for something you make often. That's a verification loop, done by hand.</p>
+      <p class="alt"><b>No-account version:</b> use the rubric on your own work for a week. It helps with or without AI.</p>
+    </div></div>
+    <div class="part"><div class="part-label">Example</div><div class="part-body">
+      <p><b>A rubric checker, step by step.</b></p>
+      <ol class="steps">
+        <li>Write your rubric. For a workshop announcement: names a date and room; under 80 words; exactly one sign-up link.</li>
+        <li>Write or generate a draft.</li>
+        <li>In a new chat, paste:</li>
+      </ol>
+      <div class="codebox"><button class="copy">Copy</button><pre>Score this text against the rubric. For each item, answer PASS or
+FAIL and quote the line that shows it. Do not rewrite the text.
+Rubric:
+1. Names a date and a room
+2. Under 80 words
+3. Has exactly one sign-up link
+Text: &lt;paste here&gt;</pre></div>
+      <ol class="steps" start="4">
+        <li>If anything fails, revise and run the checker again.</li>
+        <li>Do this on five drafts and note which item fails most. That record is a small learning loop.</li>
+      </ol>
+    </div></div>
+    <div class="part"><div class="part-label">Your call</div><div class="part-body"><p class="call">Event-driven loops run without asking you. Keep them away from sending, spending or changing records until you've watched them work.</p></div></div>
+    <div class="part"><div class="part-label">Check</div><div class="part-body">
+      <label class="check selfcheck"><input type="checkbox" data-done="m11"> I can name the four loops and who sets the terms for each.</label>
+    </div></div>
+  </section>
+
+  <!-- 12 -->
+  <section class="module" id="m12">
+    <div class="mod-head"><div class="mod-num">Module 12</div><h2>Agentic programming</h2>
+      <div class="tags"><span class="tag">Educators</span><span class="tag">Researchers</span><span class="tag">Technical</span></div></div>
+    <div class="part"><div class="part-label">Learn</div><div class="part-body">
+      <p>Coding agents (Claude Code, GitHub Copilot's agent mode, Cursor, OpenAI Codex) write and run code in a project folder. You describe it, and the agent plans, builds and tests. Your job becomes <b>specifying clearly</b> and <b>reviewing carefully</b>.</p>
+    </div></div>
+    <div class="part"><div class="part-label">See</div><div class="part-body wide">
+      <figure class="fig"><svg viewBox="0 0 760 200" role="img" aria-label="You hold both gates in the agentic programming cycle" style="width:100%;min-width:620px;height:auto">
+        <defs><marker id="ar10" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker></defs>
+        <text x="20" y="26" font-size="15" font-weight="600">You hold both gates: the plan and the review</text>
+        <g stroke-width="1.5">
+          <rect x="20" y="60" width="118" height="48" rx="8" fill="none" stroke="var(--accent)"/>
+          <rect x="164" y="60" width="118" height="48" rx="8" fill="var(--tint)" stroke="var(--line)"/>
+          <rect x="308" y="60" width="118" height="48" rx="24" fill="none" stroke="var(--cyan)" stroke-width="2"/>
+          <rect x="452" y="60" width="118" height="48" rx="8" fill="var(--tint)" stroke="var(--line)"/>
+          <rect x="596" y="60" width="144" height="48" rx="24" fill="none" stroke="var(--cyan)" stroke-width="2"/>
+        </g>
+        <g stroke="var(--muted)" stroke-width="1.25" fill="none">
+          <path d="M138 84H164" marker-end="url(#ar10)"/><path d="M282 84H308" marker-end="url(#ar10)"/><path d="M426 84H452" marker-end="url(#ar10)"/><path d="M570 84H596" marker-end="url(#ar10)"/>
+          <path d="M668 108V150H367V108" marker-end="url(#ar10)"/>
+        </g>
+        <text x="79" y="89" text-anchor="middle" font-size="13" font-weight="600">Write spec</text>
+        <text x="223" y="89" text-anchor="middle" font-size="13" font-weight="600">Agent plans</text>
+        <text x="367" y="89" text-anchor="middle" font-size="13" font-weight="600">You approve</text>
+        <text x="511" y="83" text-anchor="middle" font-size="13" font-weight="600">Agent builds</text>
+        <text x="511" y="99" text-anchor="middle" font-size="12" class="q">and runs tests</text>
+        <text x="668" y="89" text-anchor="middle" font-size="13" font-weight="600">You review</text>
+        <text x="517" y="168" text-anchor="middle" font-size="12" class="q">send back with notes</text>
+        <text x="20" y="190" font-size="12" class="q">Pill shapes are decisions only you make.</text>
+      </svg></figure>
+    </div></div>
+    <div class="part"><div class="part-label">Try</div><div class="part-body">
+      <p>Write a one-page spec for a small tool you wish existed. Use the template below.</p>
+      <p class="alt"><b>No-account version:</b> have a classmate build your spec on paper. Every question they ask is a gap an agent would have guessed at.</p>
+    </div></div>
+    <div class="part"><div class="part-label">Example</div><div class="part-body">
+      <p><b>Build a workshop sign-up tracker.</b></p>
+      <ol class="steps">
+        <li>Make an empty folder and open it in a coding agent.</li>
+        <li>Save this as <code>SPEC.md</code>:</li>
+      </ol>
+      <div class="codebox"><button class="copy">Copy</button><pre># Workshop sign-up tracker
+Goal: one web page where staff see who signed up for each workshop.
+Must:
+- Read sign-ups from signups.csv (name, email, workshop, date)
+- Show one card per workshop with a count and a list of names
+- Flag workshops over capacity (capacity is in workshops.csv)
+Must not:
+- Send any email
+- Use any outside service or login
+Done when: opening index.html shows the cards, and the
+over-capacity workshop is highlighted.</pre></div>
+      <ol class="steps" start="3">
+        <li>Prompt: <code>Read SPEC.md. Propose a plan in five steps or fewer. Do not write code yet.</code></li>
+        <li>Read the plan. Remove anything you didn't ask for.</li>
+        <li>Prompt: <code>Build step 1 only, then stop and show me what changed.</code></li>
+        <li>Review each change before approving the next step.</li>
+        <li>Test with fake data, never real student data.</li>
+      </ol>
+      <p><b>Review checklist:</b> Does it do only what the spec says? Can you explain each file? Did it add anything that connects to the internet? Do the tests check the "done when" line?</p>
+    </div></div>
+    <div class="part"><div class="part-label">Your call</div><div class="part-body"><p class="call">If you can't read or test the code, keep the tool small, offline and away from real data. Course rules come first.</p></div></div>
+    <div class="part"><div class="part-label">Check</div><div class="part-body">
+      <label class="check selfcheck"><input type="checkbox" data-done="m12"> A classmate could build my tool from my spec without asking me a question.</label>
+    </div></div>
+  </section>
+
+  <!-- 13 -->
+  <section class="module" id="m13">
+    <div class="mod-head"><div class="mod-num">Module 13</div><h2>Teaching and policy</h2>
+      <div class="tags"><span class="tag">Educators</span><span class="tag">Students</span><span class="tag">Ethical</span></div></div>
+    <div class="part"><div class="part-label">Learn</div><div class="part-body">
+      <p>Brandeis asks every syllabus to state an AI policy and offers four templates (<a href="https://www.brandeis.edu/teaching/online-guides/syllabus/ai-statements.html" target="_blank" rel="noopener">Brandeis CTL</a>). All four are valid, and a course with zero AI is as legitimate as one built around it.</p>
+    </div></div>
+    <div class="part"><div class="part-label">See</div><div class="part-body wide">
+      <div class="panel">
+        <div class="spec-axis"><span>Most restrictive</span><span>Most permissive</span></div>
+        <div class="spectrum" id="spectrum"></div>
+        <div id="specInfo" class="route" aria-live="polite"></div>
+      </div>
+    </div></div>
+    <div class="part"><div class="part-label">Try</div><div class="part-body">
+      <p>Pick the template closest to your course and tweak one sentence for your field.</p>
+      <p class="alt"><b>No account needed</b> for this one.</p>
+    </div></div>
+    <div class="part"><div class="part-label">Example</div><div class="part-body">
+      <p><b>Conscientious objection.</b> People may say no to AI for ethical, religious, environmental or professional reasons. If AI is required, offer an equal non-AI path that meets the same learning goal.</p>
+      <p><b>Redesign one assignment, step by step.</b></p>
+      <ol class="steps">
+        <li>Write the assignment's learning goal in one sentence.</li>
+        <li>Ask: could a chat tool produce a passing answer? Decide whether that matters for this goal.</li>
+        <li>If it matters, add a step that shows process: draft history, an oral check-in, in-class work, or a reflection on choices.</li>
+        <li>If your policy allows AI, require a short note on how it was used.</li>
+        <li>Write the non-AI path, with the same learning goal.</li>
+      </ol>
+      <p><b>Teaching agentic programming.</b> Grade the spec, the review and the tests along with the code. Ask students to explain any line the agent wrote.</p>
+    </div></div>
+    <div class="part"><div class="part-label">Your call</div><div class="part-body"><p class="call">Your policy is yours to set within Brandeis rules. Adjust it whenever it stops serving the learning goal.</p></div></div>
+    <div class="part"><div class="part-label">Check</div><div class="part-body">
+      <label class="check selfcheck"><input type="checkbox" data-done="m13"> My syllabus statement says what is allowed, what is not, and how to cite use.</label>
+    </div></div>
+  </section>
+
+  <!-- 14 -->
+  <section class="module" id="m14">
+    <div class="mod-head"><div class="mod-num">Module 14</div><h2>Your system and your boundaries</h2>
+      <div class="tags"><span class="tag">Everyone</span></div></div>
+    <div class="part"><div class="part-label">Learn</div><div class="part-body">
+      <p>You've got the basics. Now write your choices down so they hold up when a deadline or a shiny new tool comes along.</p>
+    </div></div>
+    <div class="part"><div class="part-label">Try</div><div class="part-body wide">
+      <div class="panel">
+        <div style="font-weight:600">Your AI use charter. A charter that says "I won't use generative AI" is complete.</div>
+        <div class="grid2">
+          <label class="fld">I use generative AI for<textarea id="c1" placeholder="e.g. nothing, or meeting notes"></textarea></label>
+          <label class="fld">I do not use it for<textarea id="c2" placeholder="e.g. grading, anything with student records"></textarea></label>
+          <label class="fld">I never put this data into a tool<textarea id="c3"></textarea></label>
+          <label class="fld">I always check outputs by<textarea id="c4"></textarea></label>
+          <label class="fld">I tell others I used it when<textarea id="c5"></textarea></label>
+          <label class="fld">I'll revisit this charter on<input id="c6" type="date"></label>
+        </div>
+        <div class="codebox"><button class="copy">Copy</button><pre id="cOut"></pre></div>
+      </div>
+      <p class="alt"><b>No account needed</b> for this one.</p>
+    </div></div>
+    <div class="part"><div class="part-label">Example</div><div class="part-body wide">
+      <div class="tbl"><table><thead><tr><th>Person</th><th>Uses it for</th><th>Does not use it for</th></tr></thead><tbody>
+        <tr><td>Researcher who objects</td><td>Nothing</td><td>Anything; reads AI policy to advise students and review papers</td></tr>
+        <tr><td>Staff member</td><td>Meeting notes to action items, email first drafts</td><td>Personnel matters, anything with student records</td></tr>
+        <tr><td>Instructor</td><td>Practice quizzes, a course FAQ assistant</td><td>Grading, feedback on student writing</td></tr>
+      </tbody></table></div>
+    </div></div>
+    <div class="part"><div class="part-label">Check</div><div class="part-body wide">
+      <p>Rate yourself again and see what moved since module 0.</p>
+      <div class="panel" id="ratesAfter"></div>
+      <figure class="fig"><svg id="rateChart" viewBox="0 0 760 230" role="img" aria-label="Your skill ratings before and after" style="width:100%;height:auto"></svg></figure>
+      <label class="check selfcheck"><input type="checkbox" data-done="m14"> I wrote my charter and finished one capstone: a documented workflow, a system, or a task I chose to keep AI out of.</label>
+    </div></div>
+  </section>
+
+  <!-- Appendix -->
+  <section class="module" id="glossary">
+    <div class="mod-head"><div class="mod-num">Appendix</div><h2>Glossary and sources</h2></div>
+    <div class="tbl"><table><thead><tr><th>Term</th><th>Plain meaning</th></tr></thead><tbody>
+      <tr><td>Agent</td><td>A model that can take actions and choose its next step</td></tr>
+      <tr><td>Context window</td><td>Everything the model can see in one session</td></tr>
+      <tr><td>Hallucination</td><td>Confident output that is false or invented</td></tr>
+      <tr><td>Deep learning</td><td>Machine learning with many-layered neural networks</td></tr>
+      <tr><td>Local model</td><td>A model that runs on your own computer, offline</td></tr>
+      <tr><td>LLM</td><td>Large language model: predicts the next token from patterns in text</td></tr>
+      <tr><td>Machine learning</td><td>Systems that learn patterns from data instead of hand-written rules</td></tr>
+      <tr><td>Open-weight model</td><td>A model whose files are published so anyone can download and run it</td></tr>
+      <tr><td>Prompt</td><td>The instruction you give the model</td></tr>
+      <tr><td>Quantization</td><td>Compressing a model so it fits in less memory, with a small loss in quality</td></tr>
+      <tr><td>Rubric</td><td>A short list of pass or fail criteria for checking output</td></tr>
+      <tr><td>Symbolic AI</td><td>AI built from rules and logic written by people</td></tr>
+      <tr><td>Token</td><td>A chunk of text the model reads and writes</td></tr>
+      <tr><td>Training</td><td>The one-time process where a model learns from data</td></tr>
+    </tbody></table></div>
+    <ul class="plain">
+      <li><a href="https://www.brandeis.edu/ai-steering-council/ai-tools.html" target="_blank" rel="noopener">Brandeis AI Tools</a></li>
+      <li><a href="https://www.brandeis.edu/teaching/online-guides/syllabus/ai-statements.html" target="_blank" rel="noopener">Brandeis AI syllabus statements</a></li>
+      <li><a href="https://www.educause.edu/content/2024/ai-literacy-in-teaching-and-learning/introduction" target="_blank" rel="noopener">EDUCAUSE: AI Literacy in Teaching and Learning</a></li>
+      <li><a href="https://www.thecollegefix.com/nearly-90-of-students-77-of-faculty-use-ai-survey/" target="_blank" rel="noopener">Digital Education Council 2026 survey, via The College Fix</a></li>
+      <li><a href="https://cloud.google.com/blog/products/infrastructure/measuring-the-environmental-impact-of-ai-inference" target="_blank" rel="noopener">Google Cloud: environmental impact of AI inference</a></li>
+      <li><a href="https://www.alphaxiv.org/abs/2602.06718" target="_blank" rel="noopener">GhostCite: citation validity and LLMs</a></li>
+      <li><a href="https://www.bowdoin.edu/hastings-ai-initiative/resources/initiative-created-resources/new-to-ai-faculty-guide.pdf" target="_blank" rel="noopener">Bowdoin: New to AI faculty guide</a></li>
+      <li><a href="https://science.psu.edu/science-journal/winter-2026/AI101" target="_blank" rel="noopener">Penn State Science Journal: AI 101</a></li>
+      <li><a href="https://llmhardware.io/guides/how-to-run-llms-locally" target="_blank" rel="noopener">llmhardware.io: How to Run LLMs Locally</a></li>
+      <li><a href="https://www.deeplearning.ai/courses/loop-engineering-with-langchain-deep-agents" target="_blank" rel="noopener">DeepLearning.AI: Loop Engineering with LangChain Deep Agents</a></li>
+    </ul>
+  </section>
+
+  <footer class="foot">
+    <div><b style="color:var(--fg)">Brandeis Design and Innovation</b> · Bring a task, a question, or an objection to BDI office hours. Day, time and room to be confirmed.</div>
+    <div>Your checkmarks, ratings and charter stay in your browser. Nothing is sent anywhere.</div>
+  </footer>
+  </main>
+</div>
+
+<script>
+(function(){
+  const store = {
+    get(k, d){ try{ const v = localStorage.getItem('abA:'+k); return v === null ? d : JSON.parse(v); }catch(e){ return d; } },
+    set(k, v){ try{ localStorage.setItem('abA:'+k, JSON.stringify(v)); }catch(e){} }
+  };
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+  /* Nav + progress */
+  const mods = [['m0','Starting point'],['m1','What AI is'],['m2','How LLMs work'],['m3','Who uses it'],['m4','Limits and costs'],['m5','Deciding'],['m6','Tools and privacy'],['m7','Local models'],['m8','Prompting'],['m9','Context and systems'],['m10','Workflows'],['m11','Agents and loops'],['m12','Agentic programming'],['m13','Teaching and policy'],['m14','Your boundaries']];
+  const nav = $('#nav');
+  nav.innerHTML = mods.map((m,i) => `<li><a href="#${m[0]}" data-nav="${m[0]}"><span class="n">${i}</span><span>${m[1]}</span></a></li>`).join('') + `<li><a href="#glossary"><span class="n">A</span><span>Glossary</span></a></li>`;
+  const done = store.get('done', {});
+  function refreshDone(){
+    let c = 0;
+    mods.forEach(m => { const a = nav.querySelector(`[data-nav="${m[0]}"]`); const on = !!done[m[0]]; a.classList.toggle('done', on); a.querySelector('.n').textContent = on ? '✓' : mods.findIndex(x=>x[0]===m[0]); if(on) c++; });
+    $('#progText').textContent = `${c} of ${mods.length} checked off`;
+    $('#progBar').style.width = (c/mods.length*100)+'%';
+  }
+  document.querySelectorAll('[data-done]').forEach(cb => {
+    cb.checked = !!done[cb.dataset.done];
+    cb.addEventListener('change', () => { done[cb.dataset.done] = cb.checked; store.set('done', done); refreshDone(); });
+  });
+  refreshDone();
+
+  /* Copy buttons */
+  document.querySelectorAll('.copy').forEach(b => b.addEventListener('click', () => {
+    const pre = b.parentElement.querySelector('pre'); const t = pre.textContent;
+    const ok = () => { b.textContent = 'Copied'; setTimeout(() => b.textContent = 'Copy', 1400); };
+    const fallback = () => { const r = document.createRange(); r.selectNodeContents(pre); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = 'Selected'; setTimeout(() => b.textContent = 'Copy', 1400); };
+    try{ navigator.clipboard.writeText(t).then(ok, fallback); }catch(e){ fallback(); }
+  }));
+
+  /* Module 0: placement map */
+  const stances = ["Won't use it","Skeptical","Curious","Use sometimes","Use it daily"];
+  const roles = ['Student','Staff','Educator','Researcher','Another field'];
+  const routes = [
+    {start:[1,4,5], then:[6,13,14], note:'Reading to understand it, set policy, or refuse it well is a full route.'},
+    {start:[1,2,4,5], then:[7,8,10], note:'Use the no-account versions of each activity.'},
+    {start:[1,2,5,8], then:[9,10,14], note:''},
+    {start:[5,8,9], then:[7,10,11], note:''},
+    {start:[4,5,11], then:[7,12,13,14], note:''}
+  ];
+  const roleAdd = {0:[13], 1:[10], 2:[13], 3:[4,7,12], 4:[]};
+  const roleNote = {0:'Check your course policy in module 13 first.', 1:'', 2:'', 3:'', 4:''};
+  const map = $('#map');
+  let html = '<div></div>' + stances.map(s => `<div class="hd">${esc(s)}</div>`).join('');
+  roles.forEach((r,ri) => { html += `<div class="rl">${esc(r)}</div>` + stances.map((s,si) => `<button class="s${si}" data-r="${ri}" data-s="${si}" aria-pressed="false" aria-label="${esc(r)}, ${esc(s)}"></button>`).join(''); });
+  map.innerHTML = html;
+  const chip = n => `<a class="chip" href="#m${n}">${n}. ${esc(mods[n][1])}</a>`;
+  function pick(ri, si){
+    map.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.r===ri && +b.dataset.s===si)));
+    const rt = routes[si]; const extra = roleAdd[ri].filter(n => !rt.start.includes(n) && !rt.then.includes(n));
+    const all = new Set([...rt.start, ...rt.then, ...extra]);
+    nav.querySelectorAll('a[data-nav]').forEach(a => a.classList.toggle('rec', all.has(+a.dataset.nav.slice(1))));
+    $('#route').innerHTML = `<div style="display:grid;gap:8px"><div><b>${esc(roles[ri])}, ${esc(stances[si].toLowerCase())}.</b> ${esc(rt.note)} ${esc(roleNote[ri])}</div><div class="chips"><span style="font-size:.85rem;color:var(--muted);align-self:center">Start with</span>${rt.start.map(chip).join('')}</div><div class="chips"><span style="font-size:.85rem;color:var(--muted);align-self:center">Then</span>${[...rt.then, ...extra].map(chip).join('')}</div><div style="font-size:.85rem;color:var(--muted)">Suggested modules are shaded in the index.</div></div>`;
+    store.set('place', [ri, si]);
+  }
+  map.addEventListener('click', e => { const b = e.target.closest('button'); if(b) pick(+b.dataset.r, +b.dataset.s); });
+  const pl = store.get('place', null); if(pl) pick(pl[0], pl[1]);
+
+  /* Ratings */
+  const areas = [['technical','Technical'],['evaluative','Evaluative'],['practical','Practical'],['ethical','Ethical']];
+  function rates(el, key){
+    const v = store.get(key, {technical:1,evaluative:1,practical:1,ethical:1});
+    el.innerHTML = areas.map(a => `<label class="rate" for="${key}-${a[0]}"><span>${a[1]}</span><input type="range" min="1" max="5" step="1" id="${key}-${a[0]}" value="${v[a[0]]}"><b id="${key}-${a[0]}-v">${v[a[0]]}</b></label>`).join('');
+    areas.forEach(a => { const i = $(`#${key}-${a[0]}`); i.addEventListener('input', () => { v[a[0]] = +i.value; $(`#${key}-${a[0]}-v`).textContent = i.value; store.set(key, v); drawRates(); }); });
+  }
+  rates($('#ratesBefore'), 'before'); rates($('#ratesAfter'), 'after');
+  function drawRates(){
+    const b = store.get('before', {technical:1,evaluative:1,practical:1,ethical:1}), a = store.get('after', {technical:1,evaluative:1,practical:1,ethical:1});
+    const x0 = 140, w = 520, sx = v => x0 + (v/5)*w;
+    let s = `<text x="20" y="26" font-size="15" font-weight="600">Your ratings, before and after</text>`;
+    s += `<rect x="560" y="12" width="12" height="12" rx="2" fill="var(--line)"/><text x="578" y="23" font-size="12" class="q">Module 0</text><rect x="650" y="12" width="12" height="12" rx="2" fill="var(--accent)"/><text x="668" y="23" font-size="12" class="q">Module 14</text>`;
+    for(let t=1;t<=5;t++) s += `<line x1="${sx(t)}" x2="${sx(t)}" y1="44" y2="208" stroke="var(--line)"/><text x="${sx(t)}" y="224" text-anchor="middle" font-size="11" class="q">${t}</text>`;
+    areas.forEach((ar,i) => { const y = 52 + i*40;
+      s += `<text x="20" y="${y+18}" font-size="13">${ar[1]}</text>`;
+      s += `<rect x="${x0}" y="${y}" width="${sx(b[ar[0]])-x0}" height="12" rx="3" fill="var(--line)"><title>${ar[1]} before: ${b[ar[0]]}</title></rect>`;
+      s += `<rect x="${x0}" y="${y+15}" width="${sx(a[ar[0]])-x0}" height="12" rx="3" fill="var(--accent)"><title>${ar[1]} after: ${a[ar[0]]}</title></rect>`;
+    });
+    $('#rateChart').innerHTML = s;
+  }
+  drawRates();
+
+  /* Module 1: token demo (illustrative) */
+  const steps = [
+    [['9',0.38],['8',0.27],['noon',0.12],['dawn',0.05],['7:30',0.18]],
+    [['a.m.',0.55],['o’clock',0.20],['on',0.15],['every',0.10]],
+    [['on',0.40],['and',0.25],['.',0.35]]
+  ];
+  let stepIdx = 0, text = 'The library opens at';
+  function renderProbs(){
+    const st = steps[stepIdx];
+    if(!st){ $('#probs').innerHTML = '<div style="font-size:.92rem;color:var(--muted)">The model keeps going one word at a time. Notice that nothing here checked the real hours.</div>'; $('#sampleBtn').disabled = true; return; }
+    $('#probs').innerHTML = st.slice().sort((a,b)=>b[1]-a[1]).map(p => `<div class="prob"><span>${esc(p[0])}</span><div class="track"><div class="fill" style="width:${p[1]*100}%"></div></div><span style="text-align:right;font-variant-numeric:tabular-nums">${Math.round(p[1]*100)}%</span></div>`).join('');
+  }
+  $('#sampleBtn').addEventListener('click', () => {
+    const st = steps[stepIdx]; let r = Math.random(), w = st[0][0];
+    for(const p of st){ if(r < p[1]){ w = p[0]; break; } r -= p[1]; }
+    text += (w === '.' ? '' : ' ') + `<span class="gen">${esc(w)}</span>`;
+    $('#tokText').innerHTML = text; stepIdx++; renderProbs();
+  });
+  $('#resetTok').addEventListener('click', () => { stepIdx = 0; text = 'The library opens at'; $('#tokText').innerHTML = text; $('#sampleBtn').disabled = false; renderProbs(); });
+  renderProbs();
+
+  /* Module 2: usage chart */
+  const use = [
+    ['Students who use AI in their learning',90,true,true],
+    ['Faculty who use AI to help them teach',77,false,false],
+    ['US and Canada students worried about unfair advantage',73,false,false],
+    ['Faculty who have had AI literacy training',64,false,false],
+    ['Students lacking guidance on AI in assessments',57,false,true],
+    ['Students who find working without AI harder',22,false,false]
+  ];
+  (function(){
+    const bx = 400, bw = 300, y0 = 70, rh = 38;
+    let s = `<text x="20" y="26" font-size="15" font-weight="600">Nearly 9 in 10 students use AI, yet 57% lack guidance on it in assessments</text><text x="20" y="46" font-size="12" class="q">Share of respondents, 2026</text><line x1="${bx}" x2="${bx}" y1="${y0-8}" y2="${y0+rh*use.length-12}" stroke="var(--line)"/>`;
+    use.forEach((r,i) => { const y = y0 + rh*i, w = bw*r[1]/100;
+      s += `<text x="${bx-12}" y="${y+14}" text-anchor="end" font-size="13" ${r[3]?'font-weight="600"':'class="q"'}>${esc(r[0])}</text>`;
+      s += `<rect x="${bx}" y="${y}" width="${w}" height="18" rx="3" fill="${r[3]?'var(--accent)':'var(--line)'}"><title>${esc(r[0])}: ${r[2]?'nearly ':''}${r[1]}%</title></rect>`;
+      s += `<text x="${bx+w+8}" y="${y+14}" font-size="13" ${r[3]?'font-weight="600"':''}>${r[2]?'~':''}${r[1]}%</text>`;
+    });
+    s += `<text x="20" y="${y0+rh*use.length+16}" font-size="12" class="q">The same survey shows heavy use alongside open concerns. Both are part of the picture.</text>`;
+    $('#useChart').innerHTML = s;
+  })();
+
+  /* Module 4: decision tree */
+  const qs = [
+    {q:'Is AI allowed for this task?', exitOn:'no', out:"Don't use it here. Course, job or data rules decide this one."},
+    {q:'Is the data sensitive?', exitOn:'yes', out:'Use only a Brandeis-approved tool, or skip it.'},
+    {q:'Can you check the output?', exitOn:'no', out:'Skip it, or use it only for ideas you verify yourself.'},
+    {q:'Is this a skill you want to keep?', exitOn:'yes', out:'Do it yourself. Practice is the point.'}
+  ];
+  let ti = 0, trail = [];
+  function tree(){
+    const el = $('#tree');
+    const tr = trail.length ? `<div class="trail">${trail.map(t => `<span>${esc(t)}</span>`).join('<span>→</span>')}</div>` : '';
+    if(ti === 'done' || typeof ti === 'string'){
+      el.innerHTML = `${tr}<div class="result">${esc(ti === 'done' ? 'Try it, and check every output.' : ti)}</div><div class="row"><button class="btn ghost" id="tReset">Run another task</button></div>`;
+      $('#tReset').addEventListener('click', () => { ti = 0; trail = []; tree(); }); return;
+    }
+    const q = qs[ti];
+    el.innerHTML = `${tr}<div style="font-size:.8rem;color:var(--muted);font-weight:600;letter-spacing:.08em;text-transform:uppercase">Question ${ti+1} of 4</div><div class="tree-q">${esc(q.q)}</div><div class="row"><button class="btn" data-a="yes">Yes</button><button class="btn" data-a="no">No</button></div>`;
+    el.querySelectorAll('[data-a]').forEach(b => b.addEventListener('click', () => {
+      const a = b.dataset.a; trail.push(`${q.q.replace('?','')}: ${a}`);
+      if(a === q.exitOn){ ti = q.out; } else { ti = ti + 1; if(ti >= qs.length) ti = 'done'; }
+      tree();
+    }));
+  }
+  tree();
+
+  /* Module 6: prompt builder */
+  const pf = [['p-goal','Goal'],['p-ctx','Context'],['p-task','Task'],['p-con','Constraints'],['p-fmt','Format']];
+  function prompt(){
+    let score = 0, out = [];
+    pf.forEach(f => { const v = $('#'+f[0]).value.trim(); if(v){ score += v.split(/\s+/).length >= 4 ? 2 : 1; out.push(`${f[1]}: ${v}`); } });
+    out.push('Input: <paste the student’s email here>');
+    $('#pOut').textContent = out.join('\n');
+    $('#pScore').textContent = `Score: ${score} / 10` + (score < 8 ? '  ·  add detail to the empty or thin parts' : '  ·  ready to try');
+  }
+  pf.forEach(f => $('#'+f[0]).addEventListener('input', prompt)); prompt();
+
+  /* Module 9: loops */
+  const loops = [
+    ['Agent loop','Your request','The model acts, looks at the result, and picks the next step until done.','You set the goal and the limits.'],
+    ['Verification loop','A finished draft','A checker scores the output against a rubric and sends it back if it fails.','You write the rubric.'],
+    ['Event-driven loop','An email, a form, a date','Starts a run without you asking each time.','You choose which events may trigger it.'],
+    ['Learning loop','A pile of past runs','Find failures that repeat, then fix the instructions.','You do the review and decide what changes.']
+  ];
+  let li = 1;
+  function drawLoops(){
+    const cx = 230, cy = 160;
+    let s = `<text x="20" y="26" font-size="15" font-weight="600">Each loop wraps the one inside it, and a person sets its terms</text>`;
+    [3,2,1,0].forEach(i => { const r = 36 + i*30; const on = i === li;
+      s += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${on ? 'var(--tint)' : 'var(--surface)'}" stroke="${on ? 'var(--accent)' : 'var(--line)'}" stroke-width="${on ? 2.5 : 1.5}" style="cursor:pointer" data-loop="${i}" tabindex="0" role="button" aria-label="${loops[i][0]}"/>`; });
+    s += `<text x="${cx}" y="${cy+5}" text-anchor="middle" font-size="12" font-weight="600" style="pointer-events:none">Agent</text>`;
+    loops.forEach((l,i) => { const y = 74 + i*52; const on = i === li;
+      s += `<g style="cursor:pointer" data-loop="${i}" tabindex="0" role="button" aria-label="${l[0]}"><rect x="440" y="${y-20}" width="300" height="40" rx="8" fill="${on ? 'var(--tint)' : 'transparent'}" stroke="${on ? 'var(--accent)' : 'var(--line)'}"/><text x="456" y="${y+5}" font-size="14" ${on?'font-weight="600"':''}>${i+1}. ${l[0]}</text></g>`; });
+    $('#loops').innerHTML = s;
+    const l = loops[li];
+    $('#loopInfo').innerHTML = `<div style="display:grid;gap:4px"><div><b>${l[0]}</b></div><div><span style="color:var(--muted)">Starts with:</span> ${esc(l[1])}</div><div><span style="color:var(--muted)">What it does:</span> ${esc(l[2])}</div><div><span style="color:var(--muted)">Where you fit:</span> ${esc(l[3])}</div></div>`;
+  }
+  $('#loops').addEventListener('click', e => { const t = e.target.closest('[data-loop]'); if(t){ li = +t.dataset.loop; drawLoops(); } });
+  $('#loops').addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' '){ const t = e.target.closest('[data-loop]'); if(t){ e.preventDefault(); li = +t.dataset.loop; drawLoops(); } } });
+  drawLoops();
+
+  /* Module 11: policy spectrum */
+  const pol = [
+    ['A','Not permitted','No AI for studying or coursework. Incidental exposure, like library search summaries, is not held against students.'],
+    ['B1','Learning only','AI allowed for learning activities such as practice and self-quizzing. Not on graded work.'],
+    ['B2','Refining only','AI allowed to polish graded work if the ideas and analysis are substantially the student’s own, with citation.'],
+    ['C','Permitted with citation','AI allowed for learning, refining, data analysis and format conversion. No uncited AI work, no fabricated data.']
+  ];
+  let pi = 0;
+  function spec(){
+    $('#spectrum').innerHTML = pol.map((p,i) => `<button aria-pressed="${i===pi}" data-p="${i}"><b>${p[0]}</b><span>${p[1]}</span></button>`).join('');
+    $('#specInfo').innerHTML = `<b>Policy ${pol[pi][0]}: ${pol[pi][1]}.</b> ${esc(pol[pi][2])}`;
+  }
+  $('#spectrum').addEventListener('click', e => { const b = e.target.closest('button'); if(b){ pi = +b.dataset.p; spec(); } });
+  spec();
+
+  /* Module 12: charter */
+  const cf = [['c1','I use generative AI for'],['c2','I do not use it for'],['c3','I never put this data into a tool'],['c4','I always check outputs by'],['c5','I tell others I used it when'],['c6',"I'll revisit this charter on"]];
+  const saved = store.get('charter', {});
+  cf.forEach(f => { const el = $('#'+f[0]); if(saved[f[0]]) el.value = saved[f[0]]; el.addEventListener('input', () => { saved[f[0]] = el.value; store.set('charter', saved); charter(); }); });
+  function charter(){ $('#cOut').textContent = '# My AI use charter\n' + cf.map(f => `${f[1]}: ${$('#'+f[0]).value.trim() || '...'}`).join('\n'); }
+  charter();
+})();
+</script>
+
+</body>
+</html>
