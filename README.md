@@ -6,7 +6,7 @@ A Brandeis Design and Innovation primer on generative AI for anyone who's curiou
 
 ## What's inside
 
-15 modules of about 20 minutes each. Every module has the same six parts: Learn, See, Try (always with a version that needs no AI account), Example, Your call, and Check.
+16 modules of about 20 minutes each. Every module has the same six parts: Learn, See, Try (always with a version that needs no AI account), Example, Your call, and Check.
 
 | # | Module |
 | --- | --- |
@@ -18,13 +18,14 @@ A Brandeis Design and Innovation primer on generative AI for anyone who's curiou
 | 5 | Deciding whether to use it |
 | 6 | Tools, privacy and opting out |
 | 7 | Running AI on your own computer |
-| 8 | Prompting |
-| 9 | Context and setting up a system |
-| 10 | Workflows |
-| 11 | Agents and loop engineering |
-| 12 | Agentic programming |
-| 13 | Teaching and policy |
-| 14 | Your system and your boundaries |
+| 8 | Build your own offline sandbox |
+| 9 | Prompting |
+| 10 | Context and setting up a system |
+| 11 | Workflows |
+| 12 | Agents and loop engineering |
+| 13 | Agentic programming |
+| 14 | Teaching and policy |
+| 15 | Your system and your boundaries |
 
 ## How it's built
 
