@@ -196,7 +196,7 @@ html{scroll-behavior:smooth}
     <div class="rule"></div>
     <p class="lede">Curious, skeptical, or firmly against it? This guide is for you. See how generative AI works and what it costs, then make your own call on when to use it.</p>
     <div class="mast-facts">
-      <span><b>15</b> modules</span>
+      <span><b>16</b> modules</span>
       <span><b>~20 min</b> each</span>
       <span><b>No AI account</b> required for any activity</span>
       <span>Updated <b>Oct 29, 2026</b></span>
@@ -208,7 +208,7 @@ html{scroll-behavior:smooth}
   <nav class="index" aria-label="Modules">
     <h2>Modules</h2>
     <ol id="nav"></ol>
-    <div class="progress"><span id="progText">0 of 15 checked off</span><div class="bar"><i id="progBar"></i></div></div>
+    <div class="progress"><span id="progText">0 of 16 checked off</span><div class="bar"><i id="progBar"></i></div></div>
   </nav>
 
   <main id="main">
@@ -515,7 +515,76 @@ is most likely and why: "The library opens at"</pre></div>
 
   <!-- 8 -->
   <section class="module" id="m8">
-    <div class="mod-head"><div class="mod-num">Module 8</div><h2>Prompting</h2>
+    <div class="mod-head"><div class="mod-num">Module 8</div><h2>Build your own offline sandbox</h2>
+      <div class="tags"><span class="tag">Skeptical</span><span class="tag">Researchers</span><span class="tag">Ethical</span><span class="tag">Technical</span></div></div>
+    <div class="part"><div class="part-label">Learn</div><div class="part-body">
+      <p>A sandbox is a closed space where you can experiment without anything leaking out. An offline sandbox puts a local model and a chat window on your own laptop, then cuts the internet. You can poke at it with real documents, and your files never leave your machine.</p>
+      <p>It has three layers: the <b>model</b> (Ollama runs it), the <b>interface</b> (Open WebUI, a chat page in your browser), and the <b>fence</b> (Wi-Fi off, nothing open to the network).</p>
+    </div></div>
+    <div class="part"><div class="part-label">See</div><div class="part-body wide">
+      <figure class="fig"><svg viewBox="0 0 760 236" role="img" aria-label="In a sandbox, your data stays inside your laptop" style="width:100%;min-width:600px;height:auto">
+        <defs><marker id="arsb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker></defs>
+        <text x="20" y="26" font-size="15" font-weight="600">In a sandbox, your data stays inside your laptop</text>
+        <rect x="20" y="48" width="560" height="168" rx="12" fill="color-mix(in srgb, var(--cyan) 6%, transparent)" stroke="var(--cyan)" stroke-width="2" stroke-dasharray="6 5"/>
+        <text x="40" y="74" font-size="13" font-weight="600">Your laptop</text>
+        <g stroke-width="1.5" fill="var(--surface)" stroke="var(--line)">
+          <rect x="40" y="110" width="150" height="64" rx="8"/><rect x="225" y="110" width="150" height="64" rx="8"/><rect x="410" y="110" width="150" height="64" rx="8"/>
+          <rect x="620" y="110" width="120" height="64" rx="8" fill="none" stroke-dasharray="4 4"/>
+        </g>
+        <g stroke="var(--muted)" stroke-width="1.25" fill="none"><path d="M190 142H225" marker-end="url(#arsb)" marker-start="url(#arsb)"/><path d="M375 142H410" marker-end="url(#arsb)" marker-start="url(#arsb)"/></g>
+        <g stroke="var(--warn)" stroke-width="2"><line x1="580" y1="142" x2="620" y2="142" stroke-dasharray="3 3"/><line x1="592" y1="132" x2="608" y2="152"/><line x1="608" y1="132" x2="592" y2="152"/></g>
+        <text x="115" y="138" text-anchor="middle" font-size="13" font-weight="600">You</text><text x="115" y="156" text-anchor="middle" font-size="12" class="q">your browser</text>
+        <text x="300" y="138" text-anchor="middle" font-size="13" font-weight="600">Open WebUI</text><text x="300" y="156" text-anchor="middle" font-size="12" class="q">the chat page</text>
+        <text x="485" y="138" text-anchor="middle" font-size="13" font-weight="600">Ollama</text><text x="485" y="156" text-anchor="middle" font-size="12" class="q">the model</text>
+        <text x="680" y="138" text-anchor="middle" font-size="13" class="q">Internet</text><text x="680" y="156" text-anchor="middle" font-size="12" class="q">off after setup</text>
+        <text x="40" y="202" font-size="12" class="q">Download everything while online, then turn Wi-Fi off. Nothing crosses the dashed line.</text>
+      </svg></figure>
+    </div></div>
+    <div class="part"><div class="part-label">Try</div><div class="part-body">
+      <p>Before you build anything, draw where your data goes. Sketch one box for a cloud chat tool and one for a sandbox, then trace a document from your desk to the answer in each.</p>
+      <p class="alt"><b>No download needed</b> for this one.</p>
+    </div></div>
+    <div class="part"><div class="part-label">Example</div><div class="part-body">
+      <p><b>The easy path, no command line:</b> install <a href="https://lmstudio.ai" target="_blank" rel="noopener">LM Studio</a>, download a small model from inside it, turn off Wi-Fi, and chat. That's already a working sandbox.</p>
+      <p><b>The fuller path, with document chat:</b> Ollama plus Open WebUI (<a href="https://codersera.com/blog/open-webui-ollama-self-hosted-chatgpt-2026/" target="_blank" rel="noopener">setup guide</a>).</p>
+      <ol class="steps">
+        <li>Install <a href="https://ollama.com" target="_blank" rel="noopener">Ollama</a> and <a href="https://www.docker.com/products/docker-desktop/" target="_blank" rel="noopener">Docker Desktop</a>.</li>
+        <li>While you're still online, download a chat model and the model that reads documents:</li>
+      </ol>
+      <div class="codebox"><button class="copy">Copy</button><pre>ollama pull llama3.2
+ollama pull nomic-embed-text</pre></div>
+      <ol class="steps" start="3">
+        <li>Start the chat page:</li>
+      </ol>
+      <div class="codebox"><button class="copy">Copy</button><pre>docker run -d -p 3000:8080 \
+  --add-host=host.docker.internal:host-gateway \
+  -v open-webui:/app/backend/data \
+  --name open-webui --restart always \
+  ghcr.io/open-webui/open-webui:main</pre></div>
+      <ol class="steps" start="4">
+        <li>Open <code>http://localhost:3000</code> and create the first account. It lives only on your laptop.</li>
+        <li>Turn off Wi-Fi. Practice with a made-up document first.</li>
+        <li>Upload a file and ask about it. If answers still come with Wi-Fi off, the sandbox is sealed.</li>
+        <li>When you're done, wipe it: <code>docker rm -f open-webui</code> and <code>docker volume rm open-webui</code>.</li>
+      </ol>
+      <div class="panel" style="gap:8px">
+        <div style="font-weight:600">Is my sandbox sealed?</div>
+        <label class="check"><input type="checkbox"> Every model was downloaded before going offline.</label>
+        <label class="check"><input type="checkbox"> Wi-Fi is off while sensitive files are open.</label>
+        <label class="check"><input type="checkbox"> I never set OLLAMA_HOST to 0.0.0.0. Ollama has no password, so it stays local only.</label>
+        <label class="check"><input type="checkbox"> I tested with fake data before real data.</label>
+        <label class="check"><input type="checkbox"> I know how to wipe the chats and files afterward.</label>
+      </div>
+    </div></div>
+    <div class="part"><div class="part-label">Your call</div><div class="part-body"><p class="call">Offline controls where your data goes. It doesn't make the answers accurate. Some data rules (IRB protocols, FERPA, data use agreements) only allow approved university machines, so check with IT or your IRB before using real records.</p></div></div>
+    <div class="part"><div class="part-label">Check</div><div class="part-body">
+      <label class="check selfcheck"><input type="checkbox" data-done="m8"> With Wi-Fi off, my sandbox answered a question about a file I uploaded.</label>
+    </div></div>
+  </section>
+
+  <!-- 9 -->
+  <section class="module" id="m9">
+    <div class="mod-head"><div class="mod-num">Module 9</div><h2>Prompting</h2>
       <div class="tags"><span class="tag">Curious</span><span class="tag">Users</span><span class="tag">Practical</span></div></div>
     <div class="part"><div class="part-label">Learn</div><div class="part-body">
       <p>A prompt is your instruction. The model only knows what you tell it, so name five things: your <b>goal</b>, the <b>context</b>, the <b>task</b>, the <b>constraints</b>, and the <b>format</b>.</p>
@@ -548,13 +617,13 @@ is most likely and why: "The library opens at"</pre></div>
     </div></div>
     <div class="part"><div class="part-label">Your call</div><div class="part-body"><p class="call">If writing the prompt takes longer than the task, just do the task.</p></div></div>
     <div class="part"><div class="part-label">Check</div><div class="part-body">
-      <label class="check selfcheck"><input type="checkbox" data-done="m8"> My rewritten prompt scores 8 or higher.</label>
+      <label class="check selfcheck"><input type="checkbox" data-done="m9"> My rewritten prompt scores 8 or higher.</label>
     </div></div>
   </section>
 
-  <!-- 9 -->
-  <section class="module" id="m9">
-    <div class="mod-head"><div class="mod-num">Module 9</div><h2>Context and setting up a system</h2>
+  <!-- 10 -->
+  <section class="module" id="m10">
+    <div class="mod-head"><div class="mod-num">Module 10</div><h2>Context and setting up a system</h2>
       <div class="tags"><span class="tag">Users</span><span class="tag">Educators</span><span class="tag">Staff</span><span class="tag">Practical</span></div></div>
     <div class="part"><div class="part-label">Learn</div><div class="part-body">
       <p>Tired of re-explaining yourself every chat? Save it once. Gemini has Gems, ChatGPT has custom GPTs and Projects, Claude has Projects, NotebookLM has notebooks. Each holds <b>standing instructions</b>, <b>reference files</b>, and sometimes <b>memory</b>.</p>
@@ -603,13 +672,13 @@ syllabus and policies.
     </div></div>
     <div class="part"><div class="part-label">Your call</div><div class="part-body"><p class="call">For confidential files or high-stakes answers like grades or accommodations, a person should answer.</p></div></div>
     <div class="part"><div class="part-label">Check</div><div class="part-body">
-      <label class="check selfcheck"><input type="checkbox" data-done="m9"> My assistant refused the unanswerable question instead of inventing an answer.</label>
+      <label class="check selfcheck"><input type="checkbox" data-done="m10"> My assistant refused the unanswerable question instead of inventing an answer.</label>
     </div></div>
   </section>
 
-  <!-- 10 -->
-  <section class="module" id="m10">
-    <div class="mod-head"><div class="mod-num">Module 10</div><h2>Workflows</h2>
+  <!-- 11 -->
+  <section class="module" id="m11">
+    <div class="mod-head"><div class="mod-num">Module 11</div><h2>Workflows</h2>
       <div class="tags"><span class="tag">Staff</span><span class="tag">Users</span><span class="tag">Practical</span></div></div>
     <div class="part"><div class="part-label">Learn</div><div class="part-body">
       <p>A workflow is a set of steps you repeat, where AI does some and you do the rest. The savings come from the routine, and the best ones mark exactly where you check the work.</p>
@@ -647,13 +716,13 @@ points in this draft and why. Do not rewrite it.</pre></div>
     </div></div>
     <div class="part"><div class="part-label">Your call</div><div class="part-body"><p class="call">Keep any step that builds a skill you care about, or where a mistake would be costly and hard to catch.</p></div></div>
     <div class="part"><div class="part-label">Check</div><div class="part-body">
-      <label class="check selfcheck"><input type="checkbox" data-done="m10"> I timed my workflow before and after, checking included.</label>
+      <label class="check selfcheck"><input type="checkbox" data-done="m11"> I timed my workflow before and after, checking included.</label>
     </div></div>
   </section>
 
-  <!-- 11 -->
-  <section class="module" id="m11">
-    <div class="mod-head"><div class="mod-num">Module 11</div><h2>Agents and loop engineering</h2>
+  <!-- 12 -->
+  <section class="module" id="m12">
+    <div class="mod-head"><div class="mod-num">Module 12</div><h2>Agents and loop engineering</h2>
       <div class="tags"><span class="tag">Daily users</span><span class="tag">Educators</span><span class="tag">Technical</span></div></div>
     <div class="part"><div class="part-label">Learn</div><div class="part-body">
       <p>An agent is a model that can act (search, read files, run code) and pick its next step from what happened. "Loop engineering" covers the cycles around it that keep its work reliable (<a href="https://www.deeplearning.ai/courses/loop-engineering-with-langchain-deep-agents" target="_blank" rel="noopener">DeepLearning.AI</a>). A person sets the terms for every loop. Tap one to see how.</p>
@@ -689,13 +758,13 @@ Text: &lt;paste here&gt;</pre></div>
     </div></div>
     <div class="part"><div class="part-label">Your call</div><div class="part-body"><p class="call">Event-driven loops run without asking you. Keep them away from sending, spending or changing records until you've watched them work.</p></div></div>
     <div class="part"><div class="part-label">Check</div><div class="part-body">
-      <label class="check selfcheck"><input type="checkbox" data-done="m11"> I can name the four loops and who sets the terms for each.</label>
+      <label class="check selfcheck"><input type="checkbox" data-done="m12"> I can name the four loops and who sets the terms for each.</label>
     </div></div>
   </section>
 
-  <!-- 12 -->
-  <section class="module" id="m12">
-    <div class="mod-head"><div class="mod-num">Module 12</div><h2>Agentic programming</h2>
+  <!-- 13 -->
+  <section class="module" id="m13">
+    <div class="mod-head"><div class="mod-num">Module 13</div><h2>Agentic programming</h2>
       <div class="tags"><span class="tag">Educators</span><span class="tag">Researchers</span><span class="tag">Technical</span></div></div>
     <div class="part"><div class="part-label">Learn</div><div class="part-body">
       <p>Coding agents (Claude Code, GitHub Copilot's agent mode, Cursor, OpenAI Codex) write and run code in a project folder. You describe it, and the agent plans, builds and tests. Your job becomes <b>specifying clearly</b> and <b>reviewing carefully</b>.</p>
@@ -757,13 +826,13 @@ over-capacity workshop is highlighted.</pre></div>
     </div></div>
     <div class="part"><div class="part-label">Your call</div><div class="part-body"><p class="call">If you can't read or test the code, keep the tool small, offline and away from real data. Course rules come first.</p></div></div>
     <div class="part"><div class="part-label">Check</div><div class="part-body">
-      <label class="check selfcheck"><input type="checkbox" data-done="m12"> A classmate could build my tool from my spec without asking me a question.</label>
+      <label class="check selfcheck"><input type="checkbox" data-done="m13"> A classmate could build my tool from my spec without asking me a question.</label>
     </div></div>
   </section>
 
-  <!-- 13 -->
-  <section class="module" id="m13">
-    <div class="mod-head"><div class="mod-num">Module 13</div><h2>Teaching and policy</h2>
+  <!-- 14 -->
+  <section class="module" id="m14">
+    <div class="mod-head"><div class="mod-num">Module 14</div><h2>Teaching and policy</h2>
       <div class="tags"><span class="tag">Educators</span><span class="tag">Students</span><span class="tag">Ethical</span></div></div>
     <div class="part"><div class="part-label">Learn</div><div class="part-body">
       <p>Brandeis asks every syllabus to state an AI policy and offers four templates (<a href="https://www.brandeis.edu/teaching/online-guides/syllabus/ai-statements.html" target="_blank" rel="noopener">Brandeis CTL</a>). All four are valid, and a course with zero AI is as legitimate as one built around it.</p>
@@ -793,13 +862,13 @@ over-capacity workshop is highlighted.</pre></div>
     </div></div>
     <div class="part"><div class="part-label">Your call</div><div class="part-body"><p class="call">Your policy is yours to set within Brandeis rules. Adjust it whenever it stops serving the learning goal.</p></div></div>
     <div class="part"><div class="part-label">Check</div><div class="part-body">
-      <label class="check selfcheck"><input type="checkbox" data-done="m13"> My syllabus statement says what is allowed, what is not, and how to cite use.</label>
+      <label class="check selfcheck"><input type="checkbox" data-done="m14"> My syllabus statement says what is allowed, what is not, and how to cite use.</label>
     </div></div>
   </section>
 
-  <!-- 14 -->
-  <section class="module" id="m14">
-    <div class="mod-head"><div class="mod-num">Module 14</div><h2>Your system and your boundaries</h2>
+  <!-- 15 -->
+  <section class="module" id="m15">
+    <div class="mod-head"><div class="mod-num">Module 15</div><h2>Your system and your boundaries</h2>
       <div class="tags"><span class="tag">Everyone</span></div></div>
     <div class="part"><div class="part-label">Learn</div><div class="part-body">
       <p>You've got the basics. Now write your choices down so they hold up when a deadline or a shiny new tool comes along.</p>
@@ -830,7 +899,7 @@ over-capacity workshop is highlighted.</pre></div>
       <p>Rate yourself again and see what moved since module 0.</p>
       <div class="panel" id="ratesAfter"></div>
       <figure class="fig"><svg id="rateChart" viewBox="0 0 760 230" role="img" aria-label="Your skill ratings before and after" style="width:100%;height:auto"></svg></figure>
-      <label class="check selfcheck"><input type="checkbox" data-done="m14"> I wrote my charter and finished one capstone: a documented workflow, a system, or a task I chose to keep AI out of.</label>
+      <label class="check selfcheck"><input type="checkbox" data-done="m15"> I wrote my charter and finished one capstone: a documented workflow, a system, or a task I chose to keep AI out of.</label>
     </div></div>
   </section>
 
@@ -849,6 +918,7 @@ over-capacity workshop is highlighted.</pre></div>
       <tr><td>Prompt</td><td>The instruction you give the model</td></tr>
       <tr><td>Quantization</td><td>Compressing a model so it fits in less memory, with a small loss in quality</td></tr>
       <tr><td>Rubric</td><td>A short list of pass or fail criteria for checking output</td></tr>
+      <tr><td>Sandbox</td><td>A closed space for experimenting where nothing leaks out, such as an offline local model</td></tr>
       <tr><td>Symbolic AI</td><td>AI built from rules and logic written by people</td></tr>
       <tr><td>Token</td><td>A chunk of text the model reads and writes</td></tr>
       <tr><td>Training</td><td>The one-time process where a model learns from data</td></tr>
@@ -884,7 +954,7 @@ over-capacity workshop is highlighted.</pre></div>
   const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
   /* Nav + progress */
-  const mods = [['m0','Starting point'],['m1','What AI is'],['m2','How LLMs work'],['m3','Who uses it'],['m4','Limits and costs'],['m5','Deciding'],['m6','Tools and privacy'],['m7','Local models'],['m8','Prompting'],['m9','Context and systems'],['m10','Workflows'],['m11','Agents and loops'],['m12','Agentic programming'],['m13','Teaching and policy'],['m14','Your boundaries']];
+  const mods = [['m0','Starting point'],['m1','What AI is'],['m2','How LLMs work'],['m3','Who uses it'],['m4','Limits and costs'],['m5','Deciding'],['m6','Tools and privacy'],['m7','Local models'],['m8','Your sandbox'],['m9','Prompting'],['m10','Context and systems'],['m11','Workflows'],['m12','Agents and loops'],['m13','Agentic programming'],['m14','Teaching and policy'],['m15','Your boundaries']];
   const nav = $('#nav');
   nav.innerHTML = mods.map((m,i) => `<li><a href="#${m[0]}" data-nav="${m[0]}"><span class="n">${i}</span><span>${m[1]}</span></a></li>`).join('') + `<li><a href="#glossary"><span class="n">A</span><span>Glossary</span></a></li>`;
   const done = store.get('done', {});
@@ -912,14 +982,14 @@ over-capacity workshop is highlighted.</pre></div>
   const stances = ["Won't use it","Skeptical","Curious","Use sometimes","Use it daily"];
   const roles = ['Student','Staff','Educator','Researcher','Another field'];
   const routes = [
-    {start:[1,4,5], then:[6,13,14], note:'Reading to understand it, set policy, or refuse it well is a full route.'},
-    {start:[1,2,4,5], then:[7,8,10], note:'Use the no-account versions of each activity.'},
-    {start:[1,2,5,8], then:[9,10,14], note:''},
-    {start:[5,8,9], then:[7,10,11], note:''},
-    {start:[4,5,11], then:[7,12,13,14], note:''}
+    {start:[1,4,5], then:[6,14,15], note:'Reading to understand it, set policy, or refuse it well is a full route.'},
+    {start:[1,2,4,5], then:[7,8,9,11], note:'Use the no-account versions of each activity.'},
+    {start:[1,2,5,9], then:[10,11,15], note:''},
+    {start:[5,9,10], then:[7,8,11,12], note:''},
+    {start:[4,5,12], then:[7,8,13,14,15], note:''}
   ];
-  const roleAdd = {0:[13], 1:[10], 2:[13], 3:[4,7,12], 4:[]};
-  const roleNote = {0:'Check your course policy in module 13 first.', 1:'', 2:'', 3:'', 4:''};
+  const roleAdd = {0:[14], 1:[11], 2:[14], 3:[4,7,8,13], 4:[]};
+  const roleNote = {0:'Check your course policy in module 14 first.', 1:'', 2:'', 3:'', 4:''};
   const map = $('#map');
   let html = '<div></div>' + stances.map(s => `<div class="hd">${esc(s)}</div>`).join('');
   roles.forEach((r,ri) => { html += `<div class="rl">${esc(r)}</div>` + stances.map((s,si) => `<button class="s${si}" data-r="${ri}" data-s="${si}" aria-pressed="false" aria-label="${esc(r)}, ${esc(s)}"></button>`).join(''); });
@@ -948,7 +1018,7 @@ over-capacity workshop is highlighted.</pre></div>
     const b = store.get('before', {technical:1,evaluative:1,practical:1,ethical:1}), a = store.get('after', {technical:1,evaluative:1,practical:1,ethical:1});
     const x0 = 140, w = 520, sx = v => x0 + (v/5)*w;
     let s = `<text x="20" y="26" font-size="15" font-weight="600">Your ratings, before and after</text>`;
-    s += `<rect x="560" y="12" width="12" height="12" rx="2" fill="var(--line)"/><text x="578" y="23" font-size="12" class="q">Module 0</text><rect x="650" y="12" width="12" height="12" rx="2" fill="var(--accent)"/><text x="668" y="23" font-size="12" class="q">Module 14</text>`;
+    s += `<rect x="560" y="12" width="12" height="12" rx="2" fill="var(--line)"/><text x="578" y="23" font-size="12" class="q">Module 0</text><rect x="650" y="12" width="12" height="12" rx="2" fill="var(--accent)"/><text x="668" y="23" font-size="12" class="q">Module 15</text>`;
     for(let t=1;t<=5;t++) s += `<line x1="${sx(t)}" x2="${sx(t)}" y1="44" y2="208" stroke="var(--line)"/><text x="${sx(t)}" y="224" text-anchor="middle" font-size="11" class="q">${t}</text>`;
     areas.forEach((ar,i) => { const y = 52 + i*40;
       s += `<text x="20" y="${y+18}" font-size="13">${ar[1]}</text>`;
